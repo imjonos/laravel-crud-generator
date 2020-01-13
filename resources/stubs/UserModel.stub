@@ -1,0 +1,48 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+namespace App;
+
+use CodersStudio\CRUD\Traits\Crudable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class {{modelName}} extends Authenticatable
+{
+    use Notifiable;
+    use Crudable;
+
+    /**
+     * Columns available for sorting
+     * @var array
+     */
+    protected $sortable = {{sortable}};
+
+    protected $fillable = {{fillable}};
+
+    protected $hidden = {{hidden}};
+
+    {{Relations}}
+
+    {{Scopes}}
+
+    /**
+     * Scope for filtering results
+     * @param $query
+     * @param $val
+     * @return mixed
+     */
+    public function scopeOfOrderColumn($query,$val)
+    {
+        return $query->orderBy($val,request()->get('order_direction', 'ASC'));
+    }
+
+    public function getTableColumns() {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
+}

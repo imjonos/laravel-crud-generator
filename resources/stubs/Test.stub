@@ -1,0 +1,164 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\{{ModelName}};
+use App\User;
+
+class {{ModelName}}Test extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Test Index {{ModelName}} functionality
+     *
+     * @return void
+     */
+    public function testIndex()
+    {
+        $user = User::first();
+        $this->seed(\{{PluralName}}TableSeeder::class);
+
+        $response = $this->actingAs($user)->ajax('get', route('{{tableName}}.index'));
+        $response->assertStatus(200)
+        ->assertJsonStructure([
+            'data' => [
+                'current_page',
+                'data' => [[
+                    {{fieldsIndex}}
+                ]],
+                'first_page_url',
+                'from',
+                'last_page',
+                'last_page_url',
+                'path',
+                'per_page',
+                'to',
+                'total'
+            ]
+        ])
+        ->assertJsonCount(10, 'data.data');
+    }
+
+    /**
+     * Test Create {{ModelName}} functionality
+     *
+     * @return void
+     */
+    public function testCreate()
+    {
+        $user = User::first();
+        $response = $this->actingAs($user)->get(route('{{tableName}}.create'));
+        $response->assertStatus(200)
+        ->assertViewIs('{{customPath}}{{tableName}}.create');
+    }
+
+    /**
+     * Test Store {{ModelName}} functionality
+     *
+     * @return void
+     */
+    public function testStore()
+    {
+        $user = User::first();
+
+        $this->seed(\{{PluralName}}TableSeeder::class);
+
+        ${{singularName}} = {{ModelName}}::firstOrFail();
+
+        $data = [
+            {{fieldsStore}}
+        ];
+
+        $response = $this->actingAs($user)->ajax('post', route('{{tableName}}.store'), $data);
+        $response->assertStatus(201);
+        {{unset_password_confirmation}}
+        $this->assertDatabaseHas('{{tableName}}', $data);
+    }
+
+    /**
+     * Test Show {{ModelName}} functionality
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+        $user = User::first();
+
+        $this->seed(\{{PluralName}}TableSeeder::class);
+
+        ${{singularName}} = {{ModelName}}::firstOrFail();
+
+        $response = $this->actingAs($user)->ajax('get', route('{{tableName}}.show', ['{{singularName}}' => ${{singularName}}->id]));
+        $response->assertStatus(200)
+        ->assertViewIs('{{customPath}}{{tableName}}.show');
+    }
+
+    /**
+     * Test Edit {{ModelName}} functionality
+     *
+     * @return void
+     */
+    public function testEdit()
+    {
+        $user = User::first();
+
+        $this->seed(\{{PluralName}}TableSeeder::class);
+
+        ${{singularName}} = {{ModelName}}::firstOrFail();
+
+        $response = $this->actingAs($user)->get(route('{{tableName}}.edit', ['{{singularName}}' => ${{singularName}}->id]));
+        $response->assertStatus(200)
+        ->assertViewIs('{{customPath}}{{tableName}}.edit');
+    }
+
+    /**
+     * Test Update {{ModelName}} functionality
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $user = User::first();
+
+        $this->seed(\{{PluralName}}TableSeeder::class);
+
+        ${{singularName}} = {{ModelName}}::firstOrFail();
+
+        $data = [
+            '{{fieldForUpdate}}' => 'Test Update {{ModelName}}',
+        ];
+
+        $response = $this->actingAs($user)->ajax('put', route('{{tableName}}.update', ['{{singularName}}' => ${{singularName}}->id]), $data);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('{{tableName}}', $data);
+    }
+
+    /**
+     * Test Destroy {{ModelName}} functionality
+     *
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $user = User::first();
+
+        $this->seed(\{{PluralName}}TableSeeder::class);
+
+        ${{singularName}} = {{ModelName}}::firstOrFail();
+
+        $response = $this->actingAs($user)->ajax('delete', route('{{tableName}}.destroy', ['{{singularName}}' => ${{singularName}}->id]));
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('{{tableName}}', [
+            'id' => ${{singularName}}->id
+        ]);
+    }
+}

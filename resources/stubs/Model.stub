@@ -1,0 +1,31 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use CodersStudio\CRUD\Traits\Crudable;
+
+class {{modelName}} extends Model
+{
+    use Crudable;
+
+   /**
+     * Columns available for sorting
+     * @var array
+     */
+    protected $sortable = {{sortable}};
+
+    protected $fillable = {{fillable}};
+
+    protected $hidden = {{hidden}};
+
+    {{Relations}}
+
+    {{Scopes}}
+
+}

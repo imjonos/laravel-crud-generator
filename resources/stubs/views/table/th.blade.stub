@@ -1,0 +1,10 @@
+@component('codersstudio.crud::th', [
+	'order' => true
+])
+    @slot('columnName')
+    	{{Name}}
+    @endslot
+    @slot('title')
+        @lang('crud.{{modelNameSingularLowerCase}}.columns.{{Name}}')
+    @endslot
+@endcomponent

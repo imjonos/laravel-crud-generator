@@ -1,0 +1,20 @@
+@component('codersstudio.crud::fields.select', [
+    'required' => {{Required}}
+])
+    @slot('label')
+        @lang('crud.{{SingularName}}.columns.{{ColumnName}}')
+    @endslot
+    @slot('vModel')
+        form.{{ColumnName}}
+    @endslot
+    @slot('name')
+        {{ColumnName}}
+    @endslot
+    @slot('options')
+        @foreach(App\{{Model}}::all() as $value)
+            <option value="{{ $value->id }}">
+                {{ $value->name }}
+            </option>
+        @endforeach
+    @endslot
+@endcomponent

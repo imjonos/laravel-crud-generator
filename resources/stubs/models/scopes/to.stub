@@ -1,0 +1,12 @@
+
+    /**
+     * Scope for filtering by {{name}}
+     * @param $query
+     * @param $value
+     * @return mixed
+     */
+    public function scopeOf{{camelName}}To($query,$value)
+    {
+        return $query->where('{{name}}','<=',$value);
+    }
+

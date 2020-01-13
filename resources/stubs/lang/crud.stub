@@ -1,0 +1,7 @@
+    '{{lowerSingularName}}' => [
+        'title' => '{{Name}}',
+         'columns' => [
+            {{Columns}}
+         ]
+    ],
+/** Section for new languages **/

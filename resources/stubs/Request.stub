@@ -1,0 +1,33 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+namespace App\Http\Requests{{namespacePath}}\{{modelName}};
+
+use Illuminate\Foundation\Http\FormRequest;
+
+/**
+ * Class {{requestName}}Request
+ * @package CodersStudio\CRUD
+ */
+class {{requestName}}Request extends FormRequest
+{
+    /**
+     * authorize
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+    * rules
+    */
+    public function rules()
+    {
+        return {{rules}};
+    }
+}

@@ -1,0 +1,10 @@
+import MixinsEdit from '../../../vendor/codersstudio/crud/mixins/edit.js'
+
+Vue.component('{{SingularName}}-edit', {
+    data() {
+        return {
+            link: '/{{PluralName}}',
+        }
+    },
+    mixins: [MixinsEdit]
+});

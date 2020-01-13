@@ -1,0 +1,13 @@
+@component('codersstudio.crud::fields.radio', [
+	'required' => {{Required}}
+])
+    @slot('label')
+        @lang('crud.{{SingularName}}.columns.{{ColumnName}}')
+    @endslot
+    @slot('vModel')
+        form.{{ColumnName}}
+    @endslot
+    @slot('name')
+        {{ColumnName}}
+    @endslot
+@endcomponent

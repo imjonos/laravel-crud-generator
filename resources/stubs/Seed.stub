@@ -1,0 +1,22 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+use Illuminate\Database\Seeder;
+
+class {{Name}}TableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        {{callSeeder}}
+        factory(App\{{modelName}}::class, 20)->create();
+    }
+}

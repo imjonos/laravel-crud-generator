@@ -1,0 +1,10 @@
+import MixinsIndex from '../../../vendor/codersstudio/crud/mixins/index.js'
+
+Vue.component('{{SingularName}}-index', {
+    data() {
+        return {
+            link: '/{{PluralName}}',
+        }
+    },
+    mixins: [MixinsIndex]
+});

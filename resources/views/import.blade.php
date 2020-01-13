@@ -1,0 +1,1 @@
+<import route = "{{$route}}"></import>

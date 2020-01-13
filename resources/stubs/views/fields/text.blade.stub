@@ -1,0 +1,16 @@
+@component('codersstudio.crud::fields.text', [
+	'required' => {{Required}}
+])
+    @slot('label')
+        @lang('crud.{{SingularName}}.columns.{{ColumnName}}')
+    @endslot
+    @slot('vModel')
+        form.{{ColumnName}}
+    @endslot
+    @slot('name')
+        {{ColumnName}}
+    @endslot
+    @slot('placeholder')
+     	@lang('crud.{{SingularName}}.columns.{{ColumnName}}')
+    @endslot
+@endcomponent

@@ -1,0 +1,21 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+namespace App\Exports;
+
+use Maatwebsite\Excel\Concerns\{FromCollection, Exportable};
+use App\{{modelName}};
+
+class {{modelNamePlural}}Export implements FromCollection
+{
+    use Exportable;
+
+    public function collection()
+    {
+        return {{modelName}}::all();
+    }
+}

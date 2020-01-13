@@ -1,0 +1,17 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+use App\{{modelName}};
+use Illuminate\Support\Str;
+use Faker\Generator as Faker;
+
+$factory->define({{modelName}}::class, function (Faker $faker) {
+    return [
+        {{return}}
+    ];
+});

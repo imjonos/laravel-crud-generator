@@ -1,0 +1,23 @@
+<?php
+/**
+ * CodersStudio 2019
+ * https://coders.studio
+ * info@coders.studio
+ */
+
+namespace App\Imports;
+
+use Maatwebsite\Excel\Concerns\{ToModel, Importable};
+use App\{{modelName}};
+
+class {{modelNamePlural}}Import implements ToModel
+{
+    use Importable;
+
+    public function model(array $row)
+    {
+        return new {{modelName}}([
+            {{columns}}
+        ]);
+    }
+}

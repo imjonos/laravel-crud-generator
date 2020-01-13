@@ -1,0 +1,10 @@
+import MixinsCreate from '../../../vendor/codersstudio/crud/mixins/create.js'
+
+Vue.component('{{SingularName}}-create', {
+    data() {
+        return {
+            link: '/{{PluralName}}',
+        }
+    },
+    mixins: [MixinsCreate]
+});

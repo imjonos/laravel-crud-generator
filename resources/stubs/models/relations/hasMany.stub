@@ -1,0 +1,7 @@
+ /**
+ * Get the {{nameOfRelation}} record associated with the {{name}}.
+ */
+ public function {{nameOfRelation}}()
+ {
+     return $this->hasMany('App\{{modelNameOfRelation}}');
+ }

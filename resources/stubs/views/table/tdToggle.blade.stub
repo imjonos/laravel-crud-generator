@@ -1,0 +1,6 @@
+<td>
+	<div class="custom-control custom-checkbox">
+		<input type="checkbox" v-model="item.{{ColumnName}}" class="custom-control-input" :id="'check{{ColumnName}}' + item.id" @change="toggleBoolean(item, '{{ColumnName}}')">
+		<label class="custom-control-label" :for="'check{{ColumnName}}' + item.id"></label>
+	</div>
+</td>

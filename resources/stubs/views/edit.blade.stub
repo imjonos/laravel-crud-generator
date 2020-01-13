@@ -1,0 +1,37 @@
+@extends('codersstudio.crud::layouts.app')
+
+@section('title', trans('crud.{{SingularName}}.title'))
+
+@section('content')
+
+	<{{SingularNameKebab}}-edit
+		:data="{{ $data }}"
+		inline-template>
+		<div>
+			<nav aria-label="breadcrumb">
+			  	<ol class="breadcrumb">
+			  		<li class="breadcrumb-item"><a href="{{ route('{{PluralName}}.index') }}">@lang('crud.{{SingularName}}.title')</a></li>
+			    	<li class="breadcrumb-item active" aria-current="page">@lang('crud.buttons.edit') №@{{ data.id }}</li>
+			  	</ol>
+			</nav>
+			<div class="card">
+				<div class="card-header">
+					@lang('crud.buttons.edit') №@{{ data.id }}
+				</div>
+			    <div class="card-body">
+			        <div class="row justify-content-center">
+			            <div class="col-md-8">
+						    {{Form}}
+						    <div class="text-right">
+				    			<button class="btn btn-primary" @click="update">
+				    				<i v-if="loading" class="fas fa-pulse fa-spinner"></i>
+						    		@lang('crud.buttons.save')
+						    	</button>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </{{SingularNameKebab}}-edit>
+@endsection
