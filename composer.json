@@ -1,7 +1,7 @@
 {
     "name": "codersstudio/crud",
-    "description": ":description",
-    "license": "Commercial",
+    "description": "Laravel crud generator",
+    "license": "MIT",
     "authors": [
         {
             "name": "Coders Studio",
@@ -9,7 +9,7 @@
             "homepage": "https://coders.studio"
         }
     ],
-    "homepage": "https://gitlab.com/codersstudio/crud",
+    "homepage": "https://github.com/imjonos/laravel-crud-generator",
     "keywords": ["Laravel", "CRUD"],
     "require": {
         "illuminate/support": "~5",
