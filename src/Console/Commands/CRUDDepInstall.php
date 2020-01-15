@@ -39,7 +39,8 @@ class CRUDDepInstall extends Command
             '@fortawesome/fontawesome-free',
             'vue-flatpickr-component',
             'vue2-editor',
-            'vue2-dropzone'
+            'vue2-dropzone',
+            'vuex'
             ],
 
     ];
