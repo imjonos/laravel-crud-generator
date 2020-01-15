@@ -2,6 +2,18 @@
 
 Laravel CRUD Generator
 
+Controller
+Tests
+Model
+Requests
+Views
+Languages
+VueJS
+Route
+Menu
+Factory
+Seed
+
 ## Installation
 
 Via Composer
