@@ -8,6 +8,7 @@ import 'flatpickr/dist/flatpickr.css';
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import { VueEditor } from "vue2-editor/dist/vue2-editor.common";
+import store from "./store/index";
 
 Object.defineProperty(Vue.prototype, '_', { value: lodash });
 Vue.component('file-upload', require('./components/FileUpload.vue').default);
@@ -34,6 +35,7 @@ VueEditor.methods.emitImageInfo = function emitImageInfo($event) {
 Vue.component('vue-editor', VueEditor);
 
 const mixin = {
+    store,
     methods: {
         trans: function (key) {
             key = key.replace(/::/, '.');
