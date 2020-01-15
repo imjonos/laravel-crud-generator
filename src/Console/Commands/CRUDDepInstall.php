@@ -32,7 +32,7 @@ class CRUDDepInstall extends Command
 
     protected $commands = [
         'npm i --save' => [
-            'vee-validate',
+            'vee-validate@2.2.15',
             'vue-notification',
             'lodash',
             'bootstrap-vue',
