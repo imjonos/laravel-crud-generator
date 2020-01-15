@@ -2,7 +2,7 @@ import BootstrapVue from 'bootstrap-vue'
 import lodash from 'lodash';
 import '@fortawesome/fontawesome-free/js/fontawesome';
 import Notifications from 'vue-notification';
-import * as  VeeValidate from 'vee-validate';
+import VeeValidate from 'vee-validate';
 import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import vue2Dropzone from 'vue2-dropzone';
