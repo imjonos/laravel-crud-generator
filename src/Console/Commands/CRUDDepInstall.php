@@ -84,7 +84,7 @@ class CRUDDepInstall extends Command
         }
         $appscss = file_get_contents(resource_path('sass/app.scss'));
         if (!strpos($appscss,'@import \'./vendor/codersstudio/crud/index\';')) {
-            $appscss= str_replace('@import \'~bootstrap/scss/bootstrap\';', "@import '~bootstrap/scss/bootstrap';\n@import './vendor/codersstudio/crud/index';\n@import '~@fortawesome/fontawesome-free/css/all';",$appscss);
+            $appscss= str_replace('@import \'~bootstrap/scss/bootstrap\';', "@import '~bootstrap/scss/bootstrap';\n@import './vendor/codersstudio/crud/index';\n@import '~@fortawesome/fontawesome-free/css/all.css';",$appscss);
             file_put_contents(resource_path('sass/app.scss'),$appscss);
         }
         echo "Publishing dummies...\n";
