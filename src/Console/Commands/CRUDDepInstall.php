@@ -62,7 +62,7 @@ class CRUDDepInstall extends Command
         echo "Installing dependencies...\n";
         foreach ($this->commands as $key => $command) {
             foreach ($command as $pr) {
-                $process = new Process('cd '.base_path().' && '.$key.$pr);
+                $process = new Process('cd '.base_path().' && '.$key.' '.$pr);
                 $process->start();
 
                 foreach ($process as $type => $data) {
