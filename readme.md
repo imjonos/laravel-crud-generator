@@ -1,17 +1,15 @@
-# CRUD
-
-Laravel CRUD Generator
-
-Controller
-Tests
-Model
-Requests
-Views
-Languages
-VueJS
-Route
-Menu
-Factory
+# Laravel CRUD Generator
+Generate: 
+Controller,
+Tests,
+Model,
+Requests,
+Views,
+Languages,
+VueJS,
+Route,
+Menu,
+Factory,
 Seed
 
 ## Installation
@@ -76,6 +74,8 @@ class PostController extends Controller
 
 Please see [contributing.md](contributing.md) for details and a todolist.
 
+## Thanks for the help
+Alexandr Tsysov, Victoria Apalkova, Artem Benescul
 
 ## License
 
