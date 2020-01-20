@@ -11,7 +11,6 @@ export default {
         return {
             form: {},
             loading: false,
-            mediaCollections: {},
             link: null
         }
     },
