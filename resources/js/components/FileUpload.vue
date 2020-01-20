@@ -4,6 +4,7 @@
                       id="dropzone"
                       :options="defaultOptions"
                       v-on:vdropzone-success="onUpload"
+                      v-on:vdropzone-removed-file="removeFile"
                       :useCustomSlot=true
         >
             <div class="dropzone-custom-content">
@@ -18,6 +19,7 @@
 		data() {
 			return {
 			    files: this.value,
+                removedFiles: [],
 				defaultOptions: Object.assign({
 					url: '/upload',
 		          	thumbnailWidth: 200,
@@ -40,9 +42,13 @@
 		       default: "Drag and drop to upload file"
             },
 			value: {
-				type: Array,
+				type: Object,
 				default: () => {
-					return []
+					return {
+                        "name": "",
+                        "files": "",
+                        "removedFiles": ""
+                    }
 				}
 			},
 			options: {
@@ -59,22 +65,31 @@
 		},
 		mounted() {
       		if (_.size(this.value)) {
-      			_.forEach(this.value, (item) => {
+      			_.forEach(this.value.files, (item) => {
       				this.$refs.dropzone.manuallyAddFile({
+                        id: item.id,
       					size: item.size,
       					name: item.name,
       					type: item.mime_type
       				}, this.path ? item.path : this.getPath(item));
-      			})
+      			});
+      			this.getFiles();
       		}
     	},
     	methods: {
 		    getFiles(){
                 this.files = {
                     "name": this.name,
-                    "files": this.$refs.dropzone.getAcceptedFiles()
+                    "files": this.$refs.dropzone.getAcceptedFiles(),
+                    "removedFiles": this.removedFiles
                 };
                 this.$emit('input', this.files);
+            },
+            removeFile(file, error, xhr){
+               if(typeof file.id !== "undefined") {
+                    this.files.removedFiles.push(file);
+                    this.getFiles();
+               }
             },
     		onUpload(file, response) {
     			file.path = response.path;
