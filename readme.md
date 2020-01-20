@@ -70,6 +70,70 @@ class PostController extends Controller
 }  
 ```
 
+## File upload enable
+```
+Based on spatie laravel-medialibrary
+
+Install: composer require spatie/laravel-medialibrary:^5.0.0
+
+Model:
+
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class ModelExample extends Model implements HasMedia
+{
+    use Multitenantable, HasMediaTrait;
+    protected $appends = ['media_collection'];
+
+    /**
+     * Return files
+     * @return Array
+     */
+    public function getMediaCollectionAttribute():array
+    {
+        $this->getMedia();
+        return [
+            "name" => "MediaCollection",
+            "files" => $this->media,
+            "removedFiles" => []
+        ];
+    }
+}    
+```
+```
+View:
+
+@component('codersstudio.crud::fields.files', [
+    'required' => 0
+])
+    @slot('label')
+        @lang('crud.labels.files')
+    @endslot
+    @slot('vModel')
+        form.media_collection
+    @endslot
+    @slot('name')
+        PostMediaCollection
+    @endslot
+    @slot('placeholder')
+        @lang('crud.labels.files_placeholder')
+    @endslot
+@endcomponent 
+```
+
+```
+Controller:
+
+use FileUploadable;
+
+public function update(UpdateRequest $request, Post $post)
+    {
+        $this->upload($request, $post);
+        $post->update($request->all());
+```
+
+
 ## Contributing
 
 Please see [contributing.md](contributing.md) for details and a todolist.
