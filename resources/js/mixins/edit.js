@@ -11,7 +11,6 @@ export default {
         return {
             form: this.data,
             loading: false,
-            mediaCollections: {},
             link: null
         }
     },
