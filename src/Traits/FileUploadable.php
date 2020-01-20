@@ -20,10 +20,13 @@ trait FileUploadable
 	 */
     protected function upload(Request $request, Model $model):void
     {
-	$mediaCollection = $request->get('media_collection', ['name' => '', 'files' => []]);
+	    $mediaCollection = $request->get('media_collection', ['name' => '', 'files' => []]);
 	    
     	foreach($mediaCollection['files'] as $key => $file) {
     		$model->addMedia(storage_path('app/' . $file['path']))->toMediaCollection($mediaCollection['name']);
+    	}
+	    foreach($mediaCollection['removedFiles'] as $key => $file) {
+    		$model->deleteMedia($file['id']);
     	}
     }
 }
