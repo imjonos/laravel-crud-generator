@@ -70,7 +70,7 @@ class {{modelName}}Controller extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $newItem = {{modelName}}::create($request->all());
+        $newItem = {{modelName}}::create($request->validated());
         if ($request->ajax()) {
             return response()->json(['data' => $newItem], 201);
         }
@@ -112,7 +112,7 @@ class {{modelName}}Controller extends Controller
      */
     public function update(UpdateRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
-        ${{modelNameSingularLowerCase}}->update($request->all());
+        ${{modelNameSingularLowerCase}}->update($request->validated());
         if ($request->ajax()) {
             return response()->json(['data' => ${{modelNameSingularLowerCase}}]);
         }
