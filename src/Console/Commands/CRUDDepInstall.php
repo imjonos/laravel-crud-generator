@@ -40,7 +40,8 @@ class CRUDDepInstall extends Command
             'vue-flatpickr-component',
             'vue2-editor',
             'vue2-dropzone',
-            'vuex'
+            'vuex',
+            'vue-multiselect'
             ],
 
     ];
