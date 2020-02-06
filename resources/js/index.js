@@ -13,6 +13,7 @@ import store from "./store/index";
 Object.defineProperty(Vue.prototype, '_', { value: lodash });
 Vue.component('file-upload', require('./components/FileUpload.vue').default);
 Vue.component('import', require('./components/Import.vue').default);
+Vue.component('multi-select', require('./components/MultiSelect.vue').default);
 Vue.component('vue-dropzone', vue2Dropzone);
 Object.defineProperty(Vue.prototype, '_', { value: lodash });
 require('./index');
