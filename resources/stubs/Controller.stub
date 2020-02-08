@@ -1,6 +1,6 @@
 <?php
 /**
-* CodersStudio 2019
+* CodersStudio 2020
 * https://coders.studio
 * info@coders.studio
 */
@@ -39,8 +39,7 @@ class {{modelName}}Controller extends Controller
             {{fields}}
         ];
         $model = new {{modelName}}();
-        $data = $model->search($fields, $request->all());
-        $data = $data->paginate($request->get('per_page', 10));
+        $data = $model->ofSearch($fields, $request->all())->paginate($request->get('per_page', 10));
         $response = [
             'data' => $data,
             'selected' => [
