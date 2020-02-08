@@ -15,26 +15,30 @@ use Illuminate\Support\Str;
  */
 trait Crudable
 {
+    
     /**
-     * Search by scopes
+     * Search by scopes (new version)
+     * @param $query
      * @param array $fields fields for selection
      * @param array $requestData
      * @return Builder
      */
-    public function search(array $fields, array $requestData)
+    public function scopeOfSearch($query, array $fields, array $requestData)
     {
         $excludedScopeKeys = ['order_column'];
-        $result = $this->select($fields);
+        $query->select($fields);
         foreach ($requestData as $key=>$value) {
             if (!in_array($key,$excludedScopeKeys) && method_exists($this,'scopeOf'.Str::camel($key))) {
-                $result = $result->{'of'.ucfirst(Str::camel($key))}($value);
+                $query->{'of'.ucfirst(Str::camel($key))}($value);
             }
             if (!empty($requestData['order_column'])) {
-                $result = $result->ofOrderColumn($requestData['order_column'], (!empty($requestData['order_direction']) ? $requestData['order_direction'] : 'ASC'));
+                $query->ofOrderColumn($requestData['order_column'], (!empty($requestData['order_direction']) ? $requestData['order_direction'] : 'ASC'));
             }
         }
-        return $result->orderBy('id','desc');
+        return $query->orderBy('id','desc');
     }
+    
+    
 
     /**
      * Scope for ordering results
