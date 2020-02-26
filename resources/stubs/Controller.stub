@@ -73,7 +73,7 @@ class {{modelName}}Controller extends Controller
         if ($request->ajax()) {
             return response()->json(['data' => $newItem], 201);
         }
-        return redirect(route('{{pluralName}}.index'));
+        return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
     /**
@@ -115,7 +115,7 @@ class {{modelName}}Controller extends Controller
         if ($request->ajax()) {
             return response()->json(['data' => ${{modelNameSingularLowerCase}}]);
         }
-        return redirect('/{{modelNamePluralLowerCase}}');
+        return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
     /**
@@ -131,7 +131,7 @@ class {{modelName}}Controller extends Controller
         if ($request->ajax()) {
             return response()->json([],204);
         }
-        return redirect('/{{modelNamePluralLowerCase}}');
+        return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
     /**
@@ -148,7 +148,7 @@ class {{modelName}}Controller extends Controller
         if ($request->ajax()) {
             return response()->json([],204);
         }
-        return redirect('/{{modelNamePluralLowerCase}}');
+        return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
     /**
