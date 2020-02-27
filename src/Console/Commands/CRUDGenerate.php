@@ -833,13 +833,15 @@ class CRUDGenerate extends Command
                             "views/table/th.blade"
                         );
                         $stub = $column['type'] == 'boolean' ? 'views/table/tdToggle.blade' : 'views/table/td.blade';
+                        $columnName = $column['name'];
+                        if(isset($column['belongsTo']['name']))  $columnName = $column['belongsTo']['name'].".name";
                         $TdTemplate .= $this->makeTemplate(
                             [
                                 '{{ColumnName}}',
                                 '{{ColumnType}}',
                             ],
                             [
-                                $column['name'],
+                                $columnName,
                                 $column['type'],
                             ],
                             $stub
