@@ -1160,7 +1160,7 @@ class CRUDGenerate extends Command
             'Test'
         );
 
-        $this->writeToFile(base_path("/tests/Feature/{$singularName}Test.php"), $testTemplate);
+        $this->writeToFile(base_path("/tests/Feature/{$singularName}ControllerTest.php"), $testTemplate);
     }
 
     /**
