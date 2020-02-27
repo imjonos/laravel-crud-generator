@@ -472,15 +472,22 @@ class CRUDGenerate extends Command
         $fields = '';
         $selected = '';
         $uses = '';
+        $with = '';
         foreach ($this->columns as $column) {
             if ($column['name'] == 'id' || !in_array($column['name'], $this->systemColumns) && $column['name'] != 'password') {
                 $fields .= '\'' . $column['name'] . '\',' . PHP_EOL . '            ';
                 $selected .= '\'' . $column['name'] . '\'' . ' => $request->get(' . '\'' . $column['name'] . '\'' . '),' . PHP_EOL . '                ';
                 if ($column['input'] == "select") {
+                    $with .= "'".$column['belongsTo']['name']."',";
                     $uses .= "use App\\" . $column['belongsTo']['model'] . ";" . PHP_EOL;
                 }
             }
         }
+
+        if($with){
+            $with = '->with(['.substr($with, 0, -1).'])';
+        }
+
         $controllerTemplate = $this->makeTemplate(
             [
                 '{{modelName}}',
@@ -490,6 +497,7 @@ class CRUDGenerate extends Command
                 '{{fields}}',
                 '{{selected}}',
                 '{{uses}}',
+                '{{with}}',
                 '{{namespacePath}}'
             ],
             [
@@ -500,6 +508,7 @@ class CRUDGenerate extends Command
                 $fields,
                 $selected,
                 $uses,
+                $with,
                 $namespacePath
             ],
             'Controller'
@@ -528,8 +537,6 @@ class CRUDGenerate extends Command
             mkdir($path, 0755, true);
 
         foreach ($this->requestsList AS $request) {
-
-
             $rules = '[' . PHP_EOL;
             if ($request['rules']) {
                 foreach ($this->columns as $column) {
@@ -693,10 +700,10 @@ class CRUDGenerate extends Command
     {
         $integerTypes = [
             'integer',
-            'tinyInteger',
-            'smallInteger',
-            'mediumInteger',
-            'bigInteger',
+            'tinyint',
+            'smallint',
+            'mediumint',
+            'bigint',
             'unsignedInteger',
             'unsignedTinyInteger',
             'unsignedSmallInteger',
@@ -709,10 +716,12 @@ class CRUDGenerate extends Command
         ];
         $datetimeTypes = [
             'datetime',
-            'date'
+            'date',
+            'timestamp'
         ];
         $stringTypes = [
             'string',
+            'varchar',
             'text'
         ];
         if (in_array($column['type'], $integerTypes)) {
@@ -723,17 +732,12 @@ class CRUDGenerate extends Command
             $rules[] = 'date_format:Y-m-d H:i:s';
         } else if (in_array($column['type'], $stringTypes)) {
             $rules[] = 'string';
+        } else if ($column['type'] === 'time') {
+            $rules[] = 'date_format:H:i:s';
+        } else if ($column['type'] === 'boolean') {
+            $rules[] = 'boolean';
         } else {
-            switch ($column['type']) {
-                case 'time':
-                    $rules[] = 'date_format:H:i:s';
-                    break;
-                case 'boolean':
-                    $rules[] = 'boolean';
-                    break;
-                default:
-                    $rules[] = 'string';
-            }
+            $rules[] = 'string';
         }
         return $rules;
     }
