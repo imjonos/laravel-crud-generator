@@ -1117,7 +1117,7 @@ class CRUDGenerate extends Command
                         if ($column['unique'] === true)
                             $fieldsStore .= '\'test\'.';
 
-                        $fieldsStore .= '$' . strtolower($singularName) . '->' . $column['name'].'."'.($column['type'] == 'string' ? 'newly stored' :'').'"';
+                        $fieldsStore .= '$' . strtolower($singularName) . '->' . $column['name'].'.'.($column['type'] === 'string' ? '\'new\'' :'');
                     }
                     if ($column['name'] === 'password'){
                         $fieldsStore .= '\'test4pass\'';
