@@ -1096,6 +1096,9 @@ class CRUDGenerate extends Command
         if (!file_exists($path = base_path('/tests/Feature')))
             mkdir($path, 0775, true);
 
+        if (!file_exists($path = base_path('/tests/Feature/Admin')))
+            mkdir($path, 0775, true);
+
         $TestCase = $this->makeTemplate([],[],'TestCase');
         $this->writeToFile(base_path("/tests/TestCase.php"), $TestCase);
 
@@ -1160,7 +1163,7 @@ class CRUDGenerate extends Command
             'Test'
         );
 
-        $this->writeToFile(base_path("/tests/Feature/{$singularName}ControllerTest.php"), $testTemplate);
+        $this->writeToFile(base_path("/tests/Feature/Admin/{$singularName}ControllerTest.php"), $testTemplate);
     }
 
     /**
