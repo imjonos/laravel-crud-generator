@@ -11,7 +11,7 @@ export default {
             orderColumn: 'id',
             orderDirection: 'asc',
             loading: false,
-            selected_checkboxes: [],
+            selectedCheckboxes: [],
             allSelected: false,
             link: null,
             parameters: ''
@@ -19,7 +19,7 @@ export default {
     },
     mounted() {
         this.form = this.selected;
-        this.getData()
+        this.getData();
     },
     props: {
         selected : {
@@ -99,18 +99,14 @@ export default {
         },
         selectAll() {
             if (this.allSelected) {
-                this.selected_checkboxes = [];
-                this.selected_checkboxes = _.map(this.data.data, 'id');
+                this.selectedCheckboxes = [];
+                this.selectedCheckboxes = _.map(this.data.data, 'id');
             } else {
-                this.selected_checkboxes = [];
+                this.selectedCheckboxes = [];
             }
         },
         checkItem() {
-            if (_.size(this.data.data) == _.size(this.selected)) {
-                this.allSelected = true;
-            } else {
-                this.allSelected = false;
-            }
+            this.allSelected = _.size(this.data.data) === _.size(this.selected);
         },
         massDestroy() {
             this.$bvModal.msgBoxConfirm(this.trans('crud.confirmation.message'),
@@ -121,12 +117,12 @@ export default {
             .then(value => {
                 if (value) {
                     axios.post(this.link + '/massdestroy', {
-                        selected: this.selected
+                        selected: this.selectedCheckboxes
                     })
                     .then(response => {
-                        this.selected = [];
+                        this.selectedCheckboxes = [];
                         this.allSelected = false;
-                        this.getData()
+                        this.getData();
                         this.systemMessage('success',{
                                'title':this.trans('crud.actions.info'),
                                'text':this.trans('crud.actions.success.delete')

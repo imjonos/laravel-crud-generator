@@ -161,4 +161,24 @@ class {{ModelName}}ControllerTest extends TestCase
             'id' => ${{singularName}}->id
         ]);
     }
+
+     /**
+     * Test Mass Destroy {{ModelName}} functionality
+     *
+     * @return void
+     */
+     public function testmassdestroy()
+     {
+         $this->seed(\{{PluralName}}TableSeeder::class);
+         $user = User::firstOrFail();
+         $items = {{ModelName}}::all()->pluck('id')->toArray();
+
+         $response = $this->actingAs($user)->ajax('post', route('{{tableName}}.massdestroy'), [
+            'selected' => $items
+         ]);
+         $response->assertStatus(204);
+         $this->assertDatabaseMissing('users', [
+            'id' => $items[0]
+         ]);
+     }
 }

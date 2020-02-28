@@ -34,6 +34,11 @@ return [
                 'import' => 'Import failed!',
             ]
     ],
+    'confirmation' => [
+        'message' => 'Are you sure?',
+        'yes' => 'Yes',
+        'cancel' => 'Cancel'
+    ],
     'labels' => [
         'total' => 'Total',
         'from' => 'from',

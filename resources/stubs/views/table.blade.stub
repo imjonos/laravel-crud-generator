@@ -16,7 +16,7 @@
             <tr v-for="item in data.data">
                 <td>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" :id="'check' + item.id" v-model="selected_checkboxes" :value="item.id" @change="checkItem">
+                        <input type="checkbox" class="custom-control-input" :id="'check' + item.id" v-model="selectedCheckboxes" :value="item.id" @change="checkItem">
                         <label class="custom-control-label" :for="'check' + item.id"></label>
                     </div>
                 </td>
