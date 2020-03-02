@@ -50,7 +50,8 @@ return [
         'logout' => 'Logout',
         'import' => 'Import',
         'export' => 'Export',
-        'files' => 'Files'
+        'files' => 'Files',
+        'files_placeholder' => 'File upload'
     ],
 /** Section for new languages **/
 ];
