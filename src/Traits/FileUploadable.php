@@ -20,7 +20,7 @@ trait FileUploadable
 	 */
     protected function upload(Request $request, Model $model, string $collectionName = 'media_collection'):void
     {
-	    $mediaCollection = $request->get(collectionName, ['name' => '', 'files' => []]);
+	    $mediaCollection = $request->get($collectionName, ['name' => '', 'files' => []]);
 	    
     	foreach($mediaCollection['files'] as $key => $file) {
     		$model->addMedia(storage_path('app/' . $file['path']))->toMediaCollection($mediaCollection['name']);
