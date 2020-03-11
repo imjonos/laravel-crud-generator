@@ -18,9 +18,9 @@ trait FileUploadable
 	 * @param  Model   $model
 	 * @return void
 	 */
-    protected function upload(Request $request, Model $model):void
+    protected function upload(Request $request, Model $model, string $collectionName = 'media_collection'):void
     {
-	    $mediaCollection = $request->get('media_collection', ['name' => '', 'files' => []]);
+	    $mediaCollection = $request->get(collectionName, ['name' => '', 'files' => []]);
 	    
     	foreach($mediaCollection['files'] as $key => $file) {
     		$model->addMedia(storage_path('app/' . $file['path']))->toMediaCollection($mediaCollection['name']);
