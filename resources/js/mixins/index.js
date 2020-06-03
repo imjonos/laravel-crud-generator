@@ -37,13 +37,15 @@ export default {
             this.$store.commit('setLoading', true, {
                 root: true
             });
-            this.parameters = '?';
-            _.forEach(this.form, (value, key) => {
-                if (value) {
-                    this.parameters += key + '=' + value + '&';
-                }
-            });
-            window.history.pushState('', '', this.link + this.parameters);
+	    if(this.form.length) {
+                this.parameters = '?';
+                _.forEach(this.form, (value, key) => {
+                    if (value) {
+                        this.parameters += key + '=' + value + '&';
+                    }
+                });
+                window.history.pushState('', '', this.link + this.parameters);
+            }
             axios.get(this.link, {
                 params: Object.assign(
                     {
