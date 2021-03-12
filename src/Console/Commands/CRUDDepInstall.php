@@ -65,7 +65,7 @@ class CRUDDepInstall extends Command
         echo "Installing dependencies...\n";
         foreach ($this->commands as $key => $command) {
             foreach ($command as $pr) {
-                $process = new Process('cd '.base_path().' && '.$key.' '.$pr);
+                $process = new Process(['cd '.base_path().' && '.$key.' '.$pr]);
                 $process->start();
 
                 foreach ($process as $type => $data) {
@@ -90,7 +90,7 @@ class CRUDDepInstall extends Command
             file_put_contents(resource_path('sass/app.scss'),$appscss);
         }
         echo "Publishing dummies...\n";
-        $process = new Process('cd '.base_path().' && php artisan vendor:publish --tag=crud.views && php artisan vendor:publish --tag=crud.js && php artisan vendor:publish --tag=crud.sass');
+        $process = new Process(['cd '.base_path().' && php artisan vendor:publish --tag=crud.views && php artisan vendor:publish --tag=crud.js && php artisan vendor:publish --tag=crud.sass']);
         $process->start();
         foreach ($process as $type => $data) {
             if ($process::OUT === $type) {
