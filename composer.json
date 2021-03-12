@@ -4,15 +4,15 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Coders Studio",
-            "email": "info@coders.studio",
-            "homepage": "https://coders.studio"
+            "name": "Eugeny Nosenko",
+            "email": "info@toprogram.ru",
+            "homepage": "https://toprogram.ru"
         }
     ],
     "homepage": "https://github.com/imjonos/laravel-crud-generator",
     "keywords": ["Laravel", "CRUD"],
     "require": {
-        "illuminate/support": "~6",
+        "illuminate/support": "^6",
         "doctrine/dbal": "*",
         "spatie/laravel-medialibrary": "~7",
         "symfony/process": "*",
