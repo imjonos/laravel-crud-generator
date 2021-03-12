@@ -138,9 +138,6 @@ public function update(UpdateRequest $request, Post $post)
 
 Please see [contributing.md](contributing.md) for details and a todolist.
 
-## Thanks for the help
-Alexandr Tsysov, Victoria Apalkova, Artem Benescul
-
 ## License
 
 license. Please see the [license file](license.md) for more information.
