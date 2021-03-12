@@ -20,6 +20,12 @@ Via Composer
 $ composer require codersstudio/crud
 ```
 
+Laravel 8 
+
+``` bash
+$ composer require codersstudio/crud 1.1-dev
+```
+
 ## Usage
 ``` bash
 $ php artisan crud:install
