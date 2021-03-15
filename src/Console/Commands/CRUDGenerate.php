@@ -479,7 +479,7 @@ class CRUDGenerate extends Command
                 $selected .= '\'' . $column['name'] . '\'' . ' => $request->get(' . '\'' . $column['name'] . '\'' . '),' . PHP_EOL . '                ';
                 if ($column['input'] == "select") {
                     $with .= "'".$column['belongsTo']['name']."',";
-                    $uses .= "use App\\" . $column['belongsTo']['model'] . ";" . PHP_EOL;
+                    $uses .= "use App\\Models\\" . $column['belongsTo']['model'] . ";" . PHP_EOL;
                 }
             }
         }
