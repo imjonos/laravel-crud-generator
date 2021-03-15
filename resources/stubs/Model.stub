@@ -5,7 +5,7 @@
  * info@toprogram.ru
  */
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use CodersStudio\CRUD\Traits\Crudable;
