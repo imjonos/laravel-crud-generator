@@ -4,6 +4,6 @@
     */
     public function {{nameOfRelation}}()
     {
-        return $this->belongsTo('App\{{modelNameOfRelation}}');
+        return $this->belongsTo('App\Models\{{modelNameOfRelation}}');
     }
 
