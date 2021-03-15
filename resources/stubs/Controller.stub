@@ -19,7 +19,7 @@ use App\Http\Requests{{namespacePath}}\{{modelName}}\{
     MassDestroyRequest,
     ToggleBooleanRequest
 };
-use App\{{modelName}};
+use App\Models\{{modelName}};
 {{uses}}
 
 /**
