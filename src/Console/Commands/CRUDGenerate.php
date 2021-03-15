@@ -400,7 +400,7 @@ class CRUDGenerate extends Command
             [$name, $relationsTemplate, $fillable, $sortable, $hidden, $scopesTemplate],
             $stub
         );
-        $this->writeToFile(app_path("/{$name}.php"), $modelTemplate);
+        $this->writeToFile(app_path("/Models/{$name}.php"), $modelTemplate);
     }
 
     /**
