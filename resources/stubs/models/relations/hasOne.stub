@@ -3,5 +3,5 @@
  */
  public function {{nameOfRelation}}()
  {
-     return $this->hasOne('App\{{modelNameOfRelation}}');
+     return $this->hasOne('App\Models\{{modelNameOfRelation}}');
  }
