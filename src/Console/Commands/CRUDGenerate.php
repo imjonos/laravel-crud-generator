@@ -876,7 +876,7 @@ class CRUDGenerate extends Command
                     ],
                     [
                         $filters,
-                        'App\\' . str_replace('_', '', Str::ucfirst($singularName)) //TODO может это из контроллера лучше присылать?
+                        'App\\MOdels\\' . str_replace('_', '', Str::ucfirst($singularName)) //TODO может это из контроллера лучше присылать?
                     ],
                     "views/filter/filters.blade"
                 );
