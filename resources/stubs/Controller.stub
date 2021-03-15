@@ -1,9 +1,9 @@
 <?php
 /**
-* CodersStudio 2020
-* https://coders.studio
-* info@coders.studio
-*/
+ * Eugeny Nosenko 2021
+ * https://toprogram.ru
+ * info@toprogram.ru
+ */
 
 namespace App\Http\Controllers{{namespacePath}};
 
