@@ -23,7 +23,7 @@
             <template slot="tag" slot-scope="props">
                 <span class="multiselect__tag">
                     <span> {{ props.option.name }} </span>
-                    <i aria-hidden="true" tabindex="1" class="multiselect__tag-icon"></i>
+                    <i aria-hidden="true" @click="removeTag(props.option.id)" tabindex="1" class="multiselect__tag-icon"></i>
                 </span>
             </template>
             <template slot="option" slot-scope="props">
@@ -66,7 +66,13 @@
                 ]
             },
         },
-        methods: {},
+        methods: {
+            removeTag(id){
+                let tags = JSON.parse(JSON.stringify(this.selected));
+                _.remove(tags, el => Number(el.id) === Number(id));
+                this.selected = tags;
+            }
+        },
         watch: {
             selected(val) { //Для v-model в родитель
                 this.$emit('input', val);
