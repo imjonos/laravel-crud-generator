@@ -450,7 +450,7 @@ class CRUDGenerate extends Command
                 $languagesTemplate = $this->makeTemplate([], [], "lang/{$language}/main");
             }
 
-            if (!stristr($languagesTemplate, "'" . $lowerSingularName . "'")) {
+            if (!stristr($languagesTemplate, "'" . $lowerSingularName . "' =>")) {
                 $resultLanguageFileContent = str_replace("/** Section for new languages **/", $languagesColumnsTemplate, $languagesTemplate);
                 $this->writeToFile($languagePathToFile, $resultLanguageFileContent, true);
             }
