@@ -1,8 +1,8 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2021
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
 namespace CodersStudio\CRUD\Console\Commands;
@@ -1186,7 +1186,7 @@ class CRUDGenerate extends Command
         foreach ($this->columns as $column) {
             if (!in_array($column['name'], $this->systemColumns) && $column['input'] !== 'select') {
                 //TODO remake to "ifelse" and leave one concatenation outside the logical module
-                $return .= '\'' . $column['name'] . '\' => $faker->';
+                $return .= '\'' . $column['name'] . '\' => $this->faker->';
                 //the beginning of the variable part
                 $return .= ($column['unique'] ? 'unique()->' : '');
                 $return .= ($column['type'] === 'int' ? 'randomDigit' : '');
@@ -1237,7 +1237,7 @@ class CRUDGenerate extends Command
         if (!file_exists($path = base_path('/database')))
             mkdir($path, 0775, true);
 
-        if (!file_exists($path = base_path('/database/seeds')))
+        if (!file_exists($path = base_path('/database/seeders')))
             mkdir($path, 0775, true);
 
         $callSeeder = '';
@@ -1265,6 +1265,6 @@ class CRUDGenerate extends Command
             'Seed'
         );
 
-        $this->writeToFile(base_path("/database/seeds/{$name}TableSeeder.php"), $seedTemplate);
+        $this->writeToFile(base_path("/database/seeders/{$name}TableSeeder.php"), $seedTemplate);
     }
 }
