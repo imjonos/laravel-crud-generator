@@ -15,7 +15,7 @@ use App\User;
 
 class {{ModelName}}ControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * Test Index {{ModelName}} functionality
@@ -72,7 +72,6 @@ class {{ModelName}}ControllerTest extends TestCase
 
         $this->seed(\{{PluralName}}TableSeeder::class);
 
-        ${{singularName}} = {{ModelName}}::firstOrFail();
 
         $data = [
             {{fieldsStore}}
@@ -130,8 +129,6 @@ class {{ModelName}}ControllerTest extends TestCase
         $user = User::first();
 
         $this->seed(\{{PluralName}}TableSeeder::class);
-
-        ${{singularName}} = {{ModelName}}::firstOrFail();
 
         $data = [
             '{{fieldForUpdate}}' => 'Test Update {{ModelName}}',
