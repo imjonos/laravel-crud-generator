@@ -177,7 +177,7 @@ class {{ModelName}}ControllerTest extends TestCase
             'selected' => $items
          ]);
          $response->assertStatus(204);
-         $this->assertDatabaseMissing('users', [
+         $this->assertDatabaseMissing('{{tableName}}', [
             'id' => $items[0]
          ]);
      }
