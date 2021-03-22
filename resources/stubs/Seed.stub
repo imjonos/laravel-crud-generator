@@ -5,6 +5,7 @@
  * info@toprogram.ru
  */
 
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 class {{Name}}TableSeeder extends Seeder
@@ -16,7 +17,6 @@ class {{Name}}TableSeeder extends Seeder
      */
     public function run()
     {
-        {{callSeeder}}
-        factory(App\Models\{{modelName}}::class, 20)->create();
+         \App\Models\{{modelName}}::factory(20)->create();
     }
 }
