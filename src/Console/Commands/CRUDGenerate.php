@@ -1144,7 +1144,7 @@ class CRUDGenerate extends Command
             }
 
             if ($column['input'] === 'select') {
-                $fieldsStore .= '\'' . $column['name'] . '\' => App\\Models\\' . $column['belongsTo']['model'] . '::first()->id,' . PHP_EOL . '        ';
+                $fieldsStore .= '\'' . $column['name'] . '\' => \\App\\Models\\' . $column['belongsTo']['model'] . '::first()->id,' . PHP_EOL . '        ';
             }
 
             if ($column['name'] === 'remember_token') {
@@ -1220,7 +1220,7 @@ class CRUDGenerate extends Command
             }
 
             if ($column['input'] === 'select') {
-                $return .= '\'' . $column['name'] . '\' => App\\Models\\' . $column['belongsTo']['model'] . '::first()->id,' . PHP_EOL . '        ';
+                $return .= '\'' . $column['name'] . '\' => \\App\\Models\\' . $column['belongsTo']['model'] . '::first()->id,' . PHP_EOL . '        ';
             }
 
             if ($column['name'] === 'remember_token') {
