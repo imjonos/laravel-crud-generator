@@ -17,6 +17,7 @@ class {{Name}}TableSeeder extends Seeder
      */
     public function run()
     {
+         {{callSeeder}}
          \App\Models\{{modelName}}::factory(20)->create();
     }
 }
