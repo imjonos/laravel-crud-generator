@@ -1115,26 +1115,43 @@ class CRUDGenerate extends Command
                     if (!$fieldForUpdate && $column['type'] == 'string') {
                         $fieldForUpdate = $column['name'];
                     }
-                    $fieldsStore .= '\'' . $column['name'] . '\' => ';
-                    if ($column['name'] !== 'password') {
-                        if ($column['unique'] === true)
-                            $fieldsStore .= '\'test\'.';
-
-                        $fieldsStore .= '$' . strtolower($singularName) . '->' . $column['name'].($column['type'] === 'string' ? '.\'new\'' :'');
-                    }
-                    if ($column['name'] === 'password'){
-                        $fieldsStore .= '\'test4pass\'';
-                        $unset = 'unset($data["password_confirmation"]);';
-                    }
-                    $fieldsStore .= ',' . PHP_EOL . '            ';
-                }
-
-                if ($column['name'] === 'password') {
-                    $fieldsStore .= '\'password\' => \'test4pass\',' . PHP_EOL . '            ';
-                    $fieldsStore .= '\'password_confirmation\' => \'test4pass\',' . PHP_EOL . '            ';
                 }
             }
         }
+
+        foreach ($this->columns as $column) {
+            if (!in_array($column['name'], $this->systemColumns) && $column['input'] !== 'select') {
+                //TODO remake to "ifelse" and leave one concatenation outside the logical module
+                $fieldsStore .= '\'' . $column['name'] . '\' => $this->faker->';
+                //the beginning of the variable part
+                $fieldsStore .= ($column['unique'] ? 'unique()->' : '');
+                $fieldsStore .= ($column['type'] === 'int' ? 'randomDigit' : '');
+                $fieldsStore .= ($column['type'] === 'datetime' ? 'dateTime' : '');
+                $fieldsStore .= ($column['type'] === 'boolean' ? 'boolean()' : '');
+                $fieldsStore .= ($column['type'] === 'text' ? 'word' : '');
+                $fieldsStore .= ($column['name'] === 'name' ? 'name' : '');
+                $fieldsStore .= ($column['name'] === 'email' ? 'email' : '');
+                $fieldsStore .= ($column['name'] === 'password' ? 'password' : '');
+                $fieldsStore .= ($column['name'] === 'title' ? 'title' : '');
+                //end of the variable part
+                $fieldsStore .= (substr($fieldsStore, -2) == '->' ? 'word' : '');
+                $fieldsStore .= ',' . PHP_EOL . '        ';
+            }
+
+            if ($column['name'] === 'password') {
+                $unset = 'unset($data["password_confirmation"]);';
+                $fieldsStore .= '\'password_confirmation\' => \'test4pass\',' . PHP_EOL . '            ';
+            }
+
+            if ($column['input'] === 'select') {
+                $fieldsStore .= '\'' . $column['name'] . '\' => App\\' . $column['belongsTo']['model'] . '::first()->id,' . PHP_EOL . '        ';
+            }
+
+            if ($column['name'] === 'remember_token') {
+                $fieldsStore .= '\'remember_token\' => Str::random(10),' . PHP_EOL . '        ';
+            }
+        }
+
         $testTemplate = $this->makeTemplate(
             [
                 '{{tableName}}',
