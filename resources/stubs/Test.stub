@@ -129,6 +129,8 @@ class {{ModelName}}ControllerTest extends TestCase
         $user = User::first();
 
         $this->seed(\{{PluralName}}TableSeeder::class);
+        
+        ${{singularName}} = {{ModelName}}::firstOrFail();
 
         $data = [
             '{{fieldForUpdate}}' => 'Test Update {{ModelName}}',
