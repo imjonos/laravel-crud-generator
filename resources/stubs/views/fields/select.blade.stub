@@ -11,7 +11,7 @@
         {{ColumnName}}
     @endslot
     @slot('options')
-        @foreach(App\{{Model}}::all() as $value)
+        @foreach(App\Models\{{Model}}::all() as $value)
             <option value="{{ $value->id }}">
                 {{ $value->name }}
             </option>
