@@ -298,12 +298,13 @@ class CRUDGenerate extends Command
 
         $routes = [
             "Route::pattern('{$singularLowerCase}', '[0-9]+');",
-            "Route::resource('" . $route . "', '{$singular}Controller');",
-            "Route::post('" . $route . "/massdestroy', '{$singular}Controller@massDestroy')->name('{$lowerCase}.massdestroy');",
-            "Route::put('" . $route . "/{" . $singularLowerCase . "}/toggleboolean', '{$singular}Controller@toggleBoolean')->name('{$lowerCase}.toggleboolean');",
+            "Route::resource('" . $route . "', \App\Http\Controllers\{$singular}Controller::class);",
+            "Route::post('" . $route . "/massdestroy', [\App\Http\Controllers\{$singular}Controller::class, 'massDestroy'])->name('{$lowerCase}.massdestroy');",
+            "Route::put('" . $route . "/{" . $singularLowerCase . "}/toggleboolean', [\App\Http\Controllers\{$singular}Controller::class, 'toggleBoolean'])->name('{$lowerCase}.toggleboolean');",
         ];
-        if ($this->export) $routes[] = "Route::get('" . $route . "/export', '{$singular}Controller@export')->name('{$lowerCase}.export');";
-        if ($this->import) $routes[] = "Route::post('" . $route . "/import', '{$singular}Controller@import')->name('{$lowerCase }.import');";
+        if ($this->export) $routes[] = "Route::get('" . $route . "/export', [\App\Http\Controllers\{$singular}Controller::class, 'export'])->name('{$lowerCase}.export');";
+        if ($this->import) $routes[] = "Route::post('" . $route . "/import', [\App\Http\Controllers\{$singular}Controller::class, 'import'])->name('{$lowerCase }.import');";
+
 
         foreach ($routes as $route) {
             if (!stristr($routesFile, $route)) {
