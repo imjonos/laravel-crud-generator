@@ -134,7 +134,7 @@ View:
 ```
 Controller:
 
-use FileUploadable;
+use CodersStudio\CRUD\Traits\FileUploadable;
 
 public function update(UpdateRequest $request, Post $post)
     {
