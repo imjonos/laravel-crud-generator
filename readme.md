@@ -80,7 +80,10 @@ class PostController extends Controller
 ```
 Based on spatie laravel-medialibrary
 
-Install: composer require spatie/laravel-medialibrary:^5.0.0
+Install: 
+composer require spatie/laravel-medialibrary:~7.0.0
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
+php artisan migrate
 
 Model:
 
