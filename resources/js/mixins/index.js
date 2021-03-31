@@ -19,6 +19,18 @@ export default {
     },
     mounted() {
         this.form = this.selected;
+        let urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('page')){
+            let data = JSON.parse(JSON.stringify(this.data));
+            data.current_page = parseInt(urlParams.get('page'));
+            this.data = data;
+        }
+        if(urlParams.has('order_column')){
+            this.orderColumn = urlParams.get('order_column');
+        }
+        if(urlParams.has('order_direction')){
+            this.orderDirection = urlParams.get('order_direction');
+        }
         this.getData();
     },
     props: {
@@ -39,14 +51,25 @@ export default {
             });
 
             let dataParams = '';
-            _.forEach(this.form, (value, key) => {
+
+            let allParams = Object.assign(
+                {
+                    page: page,
+                    per_page: this.data.per_page,
+                    order_column: this.orderColumn,
+                    order_direction: this.orderDirection,
+                },
+                this.form
+            );
+
+            _.forEach(allParams, (value, key) => {
                 if (value) {
-                    if(dataParams) dataParams+='&';
+                    if (dataParams) dataParams += '&';
                     dataParams += key + '=' + value;
                 }
             });
-            
-            if(dataParams) {
+
+            if (dataParams) {
                 this.parameters = '?' + dataParams;
                 window.history.pushState('', '', this.link + this.parameters);
             }
@@ -72,6 +95,7 @@ export default {
                 )
             })
                 .then(response => {
+                    console.log('response.data.data', response.data.data);
                     this.data = response.data.data
                 })
                 .finally(() => {
@@ -80,7 +104,7 @@ export default {
         },
         order(column) {
             this.orderColumn = column;
-            this.orderDirection = this.orderDirection == 'asc' ? 'desc' : 'asc';
+            this.orderDirection = (this.orderDirection === 'asc') ? 'desc' : 'asc';
             this.getData();
         },
         destroy(id) {
