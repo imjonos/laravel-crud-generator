@@ -33,7 +33,7 @@
         </tbody>
     </table>
 </div>
-<b-pagination
+<b-pagination v-if="!loading"
     v-model="data.current_page"
     :total-rows="data.total"
     :per-page="data.per_page"
