@@ -14,7 +14,7 @@
     "require": {
         "illuminate/support": "~8",
         "doctrine/dbal": "*",
-        "spatie/laravel-medialibrary": "~9",
+        "spatie/laravel-medialibrary": "~7",
         "symfony/process": "*",
         "maatwebsite/excel": "*"
 
