@@ -11,7 +11,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\{{ModelName}};
-use App\User;
+use App\Models\User;
 
 class {{ModelName}}ControllerTest extends TestCase
 {
