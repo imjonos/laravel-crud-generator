@@ -16,6 +16,7 @@
                          tagPlaceholder=""
                          :preselect-first="false"
                          :allowEmpty="false"
+                         @search-change="getData"
                          :multiple="true">
             <template slot="singleLabel" slot-scope="props">
                 {{ props.option.name }}
@@ -29,55 +30,88 @@
             <template slot="option" slot-scope="props">
                 <div class="option__desc">
                    <span class="option__title">
-                    {{ props.option.name }}
-                </span>
+                        {{ props.option.name }}
+                   </span>
                 </div>
             </template>
         </vue-multiselect>
     </div>
 </template>
 <script>
-    import VueMultiselect from 'vue-multiselect'
+import VueMultiselect from 'vue-multiselect'
 
-    export default {
-        name: "multi-select",
-        components: {
-            VueMultiselect
+export default {
+    name: "multi-select",
+    components: {
+        VueMultiselect
+    },
+    data() {
+        return {
+            selected: this.value,
+            data: this.options
+        }
+    },
+    props: {
+        placeholder: {
+            type: String,
+            default: ""
         },
-        data() {
-            return {
-                selected: this.value,
-                data: this.options
-            }
+        name: {
+            type: String,
+            default: ""
         },
-        props: {
-            placeholder: {
-                default: ""
-            },
-            name: {
-                default: ""
-            },
-            value: {
-                default: () => []
-            },
-            options: {
-                default: () => [
-                    {id: '1', name: 'Option'},
-                ]
-            },
+        value: {
+            type: Array,
+            default: () => []
         },
-        methods: {
-            removeTag(id){
-                let tags = JSON.parse(JSON.stringify(this.selected));
-                _.remove(tags, el => Number(el.id) === Number(id));
-                this.selected = tags;
-            }
+        options: {
+            type: Array,
+            default: () => [
+                {id: '1', name: 'Option'},
+            ]
         },
-        watch: {
-            selected(val) { //Для v-model в родитель
-                this.$emit('input', val);
+        resourceUrl: {
+            type: String,
+            default: ""
+        }
+    },
+    mounted() {
+        this.getData();
+    },
+    methods: {
+        removeTag(id){
+            let tags = JSON.parse(JSON.stringify(this.selected));
+            _.remove(tags, el => Number(el.id) === Number(id));
+            this.selected = tags;
+        },
+        getData(searchQuery = '') {
+            if(this.resourceUrl) {
+                let searchParams = '';
+                if (_.size(searchQuery) > 1) {
+                    searchParams = '?filter[name]=' + searchQuery;
+                }
+
+                axios.get(this.resourceUrl + searchParams).then(response => {
+                    this.data = _.map(response.data.data, item => {
+                        if (!_.isEmpty(item)) {
+                            return {
+                                id: item.id,
+                                name: item.attributes.name
+                            }
+                        }
+                    });
+                }).catch(error => {
+                    console.log(error);
+                });
             }
         }
+
+    },
+    watch: {
+        selected(val) { //Для v-model в родитель
+            this.$emit('input', val);
+        }
     }
+}
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
