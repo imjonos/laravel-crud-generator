@@ -177,42 +177,42 @@ class CRUDGenerate extends Command
         $this->alternative = $this->option('alternative');
 
         if (!Schema::hasTable($this->tableName)) {
-            echo "Wrong table name! Aborting! \n";
+            $this->info("Wrong table name! Aborting!");
             return;
         }
         $this->columns = $this->getColumns();
         $name = ucfirst(Str::camel($this->tableName));
-        echo "CRUD generate start \n";
+        $this->info("CRUD generate start");
         $this->controller($name);
-        echo "Controller done!\n";
+        $this->info("Controller done!");
         $this->test($name);
-        echo "Test done!\n";
+        $this->info("Test done!");
         $this->model($name);
-        echo "Model done!\n";
+        $this->info("Model done!");
         $this->request($name);
-        echo "Request done!\n";
+        $this->info("Request done!");
         $this->views($name);
-        echo "Views done!\n";
+        $this->info("Views done!");
         $this->languages($name);
-        echo "Languages done!\n";
+        $this->info("Languages done!");
         $this->components($name);
-        echo "VueJS done!\n";
+        $this->info("VueJS done!");
         $this->routes($name);
-        echo "Route done!\n";
+        $this->info("Route done!");
         $this->menu($name);
-        echo "Menu done!\n";
+        $this->info("Menu done!");
         $this->factory($name);
-        echo "Factory done!\n";
+        $this->info("Factory done!");
         $this->seed($name);
-        echo "Seed done!\n";
+        $this->info("Seed done!");
 
         if ($this->import) {
             $this->import($name);
-            echo "Import done!\n";
+            $this->info("Import done!");
         }
         if ($this->export) {
             $this->export($name);
-            echo "Export done!\n";
+            $this->info("Export done!");
         }
     }
 
@@ -452,7 +452,7 @@ class CRUDGenerate extends Command
                 $languagesTemplate = $this->makeTemplate([], [], "lang/{$language}/main");
             }
 
-            if (!stristr($languagesTemplate, "'" . $lowerSingularName . "' =>")) {
+            if (!stristr($languagesTemplate, "'" . $lowerSingularName . "' => [")) {
                 $resultLanguageFileContent = str_replace("/** Section for new languages **/", $languagesColumnsTemplate, $languagesTemplate);
                 $this->writeToFile($languagePathToFile, $resultLanguageFileContent, true);
             }
