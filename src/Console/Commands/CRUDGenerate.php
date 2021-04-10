@@ -322,9 +322,10 @@ class CRUDGenerate extends Command
     {
         $singularName = Str::singular($this->tableName);
         $lowerSingularName = strtolower($singularName);
+        $lowerTableName = strtolower($this->tableName);
         $menuBladeFilePath = base_path('/resources/views/vendor/codersstudio/crud/layouts/menu.blade.php');
         if (!file_exists($menuBladeFilePath)) {
-            echo "Menu template file not found!";
+            $this->info("Menu template file not found!");
             return;
         }
 
@@ -334,11 +335,13 @@ class CRUDGenerate extends Command
             $menuTemplate = $this->makeTemplate(
                 [
                     '{{Route}}',
-                    '{{lowerSingularName}}'
+                    '{{lowerSingularName}}',
+                    '{{lowerTableName}}'
                 ],
                 [
                     $route,
-                    $lowerSingularName
+                    $lowerSingularName,
+                    $lowerTableName
                 ],
                 "views/layout/menu.blade"
             );
