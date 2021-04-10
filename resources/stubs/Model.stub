@@ -9,10 +9,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use CodersStudio\CRUD\Traits\Crudable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class {{modelName}} extends Model
 {
-    use Crudable;
+    use Crudable, HasFactory;
 
    /**
      * Columns available for sorting
