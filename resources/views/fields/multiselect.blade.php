@@ -13,6 +13,8 @@
                   @if(isset($resourceUrl))
                     :resource-url="{{ $resourceUrl }}"
                   @endif
+                  :multiple="{{ (isset($multiple))?$multiple:'true' }}"
+
                   placeholder="{{ $placeholder }}">
     </multi-select>
 	<div class="text-danger" v-if="errors.has('{{ $name }}')" v-html="errors.first('{{ $name }}')"></div>
