@@ -9,7 +9,7 @@
                          :options="data"
                          :name="name"
                          :show-labels="false"
-                         :taggable="true"
+                         :taggable="multiple"
                          deselectLabel="x"
                          selectLabel=""
                          selectedLabel=""
@@ -17,7 +17,7 @@
                          :preselect-first="false"
                          :allowEmpty="false"
                          @search-change="getData"
-                         :multiple="true">
+                         :multiple="multiple">
             <template slot="singleLabel" slot-scope="props">
                 {{ props.option.name }}
             </template>
@@ -60,8 +60,12 @@ export default {
             type: String,
             default: ""
         },
+        multiple: {
+            type: Boolean,
+            default: true
+        },
         value: {
-            type: Array,
+            type: Array | Object,
             default: () => []
         },
         options: {
@@ -109,7 +113,9 @@ export default {
     },
     watch: {
         selected(val) { //Для v-model в родитель
-            this.$emit('input', val);
+            if(this.multiple) this.$emit('input', val);
+            else
+                this.$emit('input', val.id);
         }
     }
 }
