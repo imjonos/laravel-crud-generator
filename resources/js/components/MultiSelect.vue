@@ -24,7 +24,8 @@
             <template slot="tag" slot-scope="props">
                 <span class="multiselect__tag">
                     <span> {{ props.option.name }} </span>
-                    <i aria-hidden="true" @click="removeTag(props.option.id)" tabindex="1" class="multiselect__tag-icon"></i>
+                    <i aria-hidden="true" @click="removeTag(props.option.id)" tabindex="1"
+                       class="multiselect__tag-icon"></i>
                 </span>
             </template>
             <template slot="option" slot-scope="props">
@@ -81,15 +82,33 @@ export default {
     },
     mounted() {
         this.getData();
+        if(!this.multiple && this.value) {
+            this.getItem(this.value);
+        }
     },
     methods: {
-        removeTag(id){
+        removeTag(id) {
             let tags = JSON.parse(JSON.stringify(this.selected));
             _.remove(tags, el => Number(el.id) === Number(id));
             this.selected = tags;
         },
+        getItem(id = null) {
+            if (this.resourceUrl && id) {
+                axios.get(this.resourceUrl + '/' + id).then(response => {
+                    let item = response.data.data;
+                    if (!_.isEmpty(item)) {
+                        this.selected = {
+                            id: item.id,
+                            name: item.attributes.name
+                        }
+                    }
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        },
         getData(searchQuery = '') {
-            if(this.resourceUrl) {
+            if (this.resourceUrl) {
                 let searchParams = '';
                 if (_.size(searchQuery) > 1) {
                     searchParams = '?filter[name]=' + searchQuery;
@@ -113,7 +132,7 @@ export default {
     },
     watch: {
         selected(val) { //Для v-model в родитель
-            if(this.multiple) this.$emit('input', val);
+            if (this.multiple) this.$emit('input', val);
             else
                 this.$emit('input', val.id);
         }
