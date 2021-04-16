@@ -15,7 +15,7 @@
                          selectedLabel=""
                          tagPlaceholder=""
                          :preselect-first="false"
-                         :allowEmpty="false"
+                         :allowEmpty="allowEmpty"
                          @search-change="getData"
                          :multiple="multiple">
             <template slot="singleLabel" slot-scope="props">
@@ -69,6 +69,10 @@ export default {
             type: Array | Object,
             default: () => []
         },
+        allowEmpty: {
+            type: Boolean,
+            default: true
+        },
         options: {
             type: Array,
             default: () => [
@@ -96,7 +100,7 @@ export default {
             if (this.resourceUrl && id) {
                 axios.get(this.resourceUrl + '/' + id).then(response => {
                     let item = response.data.data;
-                    if (!_.isEmpty(item)) {
+                    if (item.hasOwnProperty('id')) {
                         this.selected = {
                             id: item.id,
                             name: item.attributes.name
@@ -132,9 +136,19 @@ export default {
     },
     watch: {
         selected(val) { //Для v-model в родитель
-            if (this.multiple) this.$emit('input', val);
-            else
-                this.$emit('input', val.id);
+            let result = null;
+            if (!_.isEmpty(val)) {
+                if (this.multiple) result = val;
+                else
+                    result = val.id;
+            }
+
+            this.$emit('input', result);
+        },
+        value(val) {
+            if(_.isEmpty(val)){
+                this.selected = val;
+            }
         }
     }
 }
