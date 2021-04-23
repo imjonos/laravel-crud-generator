@@ -60,4 +60,22 @@ trait Crudable
     {
         return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
     }
+    
+    /**
+     * Sync Many To Many Data
+     *
+     * @param FormRequest $request
+     * @param Model $model
+     * @param array $keys
+     */
+    public function syncData(FormRequest $request, Model $model, array $keys = []):void
+    {
+        foreach ($keys as $key) {
+            if ($request->exists($key)) {
+                $collection = collect($request->get($key, []));
+                $ids = $collection->pluck(['id'])->toArray();
+                $model->{Str::camel($key)}()->sync($ids);
+            }
+        }
+    }
 }
