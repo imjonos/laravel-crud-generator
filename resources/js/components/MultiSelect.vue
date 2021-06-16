@@ -61,6 +61,10 @@ export default {
             type: String,
             default: ""
         },
+        searchBy: {
+            type: String,
+            default: "name"
+        },
         multiple: {
             type: Boolean,
             default: true
@@ -98,7 +102,9 @@ export default {
         },
         getItem(id = null) {
             if (this.resourceUrl && id) {
-                axios.get(this.resourceUrl + '/' + id).then(response => {
+                let index = this.resourceUrl.indexOf('?');
+                let url = (index>0)?this.resourceUrl.slice(0, index):this.resourceUrl;
+                axios.get(url + '/' + id).then(response => {
                     let item = response.data.data;
                     if (item.hasOwnProperty('id')) {
                         this.selected = {
@@ -115,7 +121,9 @@ export default {
             if (this.resourceUrl) {
                 let searchParams = '';
                 if (_.size(searchQuery) > 1) {
-                    searchParams = '?filter[name]=' + searchQuery;
+                    searchParams = '?';
+                    if(this.resourceUrl.indexOf('?')>0) searchParams = '&';
+                    searchParams += 'filter[' + this.searchBy + ']=' + searchQuery;
                 }
 
                 axios.get(this.resourceUrl + searchParams).then(response => {
