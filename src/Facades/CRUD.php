@@ -1,11 +1,11 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Facades;
+namespace Nos\CRUD\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

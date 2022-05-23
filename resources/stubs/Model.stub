@@ -8,7 +8,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use CodersStudio\CRUD\Traits\Crudable;
+use Nos\CRUD\Traits\Crudable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class {{modelName}} extends Model
@@ -20,7 +20,7 @@ class {{modelName}} extends Model
      * @var array
      */
     protected $sortable = {{sortable}};
-    
+
     /**
      * The attributes that are mass assignable.
      *

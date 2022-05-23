@@ -5,7 +5,7 @@
  * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Traits;
+namespace Nos\CRUD\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;

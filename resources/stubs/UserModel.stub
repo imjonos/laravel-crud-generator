@@ -7,7 +7,7 @@
 
 namespace App\MOdels;
 
-use CodersStudio\CRUD\Traits\Crudable;
+use Nos\CRUD\Traits\Crudable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -29,7 +29,7 @@ class {{modelName}} extends Authenticatable
      * @var array
      */
     protected $fillable = {{fillable}};
-    
+
      /**
      * The attributes that should be hidden for arrays.
      *

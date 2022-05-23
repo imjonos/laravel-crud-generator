@@ -11,7 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class {{requestName}}Request
- * @package CodersStudio\CRUD
+ * @package Nos\CRUD
  */
 class {{requestName}}Request extends FormRequest
 {

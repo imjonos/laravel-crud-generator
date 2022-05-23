@@ -1,27 +1,22 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Traits;
+namespace Nos\CRUD\Traits;
 
 
-use CodersStudio\CRUD\Http\Requests\ImportRequest;
 use Illuminate\Support\Facades\Storage;
+use Nos\CRUD\Http\Requests\ImportRequest;
 
 /**
  * Trait Imporrtable for the CRUD Controller
- * @package CodersStudio\CRUD\Traits
+ * @package Nos\CRUD\Traits
  */
-trait Importable{
-
-    /**
-     * Set the Import class
-     * @return mixed
-     */
-    abstract public function getImportObject();
+trait Importable
+{
 
     /**
      * @param ImportRequest $request
@@ -29,9 +24,16 @@ trait Importable{
      */
     public function import(ImportRequest $request)
     {
-        $file = $request->import_file->store("","local");
+        $file = $request->import_file->store("", "local");
         $this->getImportObject()->import($file, 'local', \Maatwebsite\Excel\Excel::XLSX);
         Storage::delete($file);
-        return response()->json([],204);
+
+        return response()->json([], 204);
     }
+
+    /**
+     * Set the Import class
+     * @return mixed
+     */
+    abstract public function getImportObject();
 }

@@ -1,4 +1,4 @@
-@component('codersstudio.crud::th', [
+@component('nos.crud::th', [
 	'order' => true
 ])
     @slot('columnName')

@@ -5,13 +5,13 @@
  * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Console\Commands;
+namespace Nos\CRUD\Console\Commands;
 
 use Illuminate\Console\Command;
 
 /**
  * Class CRUDGenerate
- * @package CodersStudio\CRUD\Console\Commands
+ * @package Nos\CRUD\Console\Commands
  */
 class CRUDDepInstall extends Command
 {
@@ -71,13 +71,13 @@ class CRUDDepInstall extends Command
 
         $this->info( "Writing imports...");
         $appjs = file_get_contents(resource_path('js/app.js'));
-        if (!strpos($appjs,'require(\'./vendor/codersstudio/crud/index\');')) {
-            $appjs= str_replace('const app = new Vue({', "require('./vendor/codersstudio/crud/index');\n\nconst app = new Vue({",$appjs);
+        if (!strpos($appjs,'require(\'./vendor/nos/crud/index\');')) {
+            $appjs= str_replace('const app = new Vue({', "require('./vendor/nos/crud/index');\n\nconst app = new Vue({",$appjs);
             file_put_contents(resource_path('js/app.js'),$appjs);
         }
         $appscss = file_get_contents(resource_path('sass/app.scss'));
-        if (!strpos($appscss,'@import \'./vendor/codersstudio/crud/index\';')) {
-            $appscss= str_replace('@import \'~bootstrap/scss/bootstrap\';', "@import '~bootstrap/scss/bootstrap';\n@import './vendor/codersstudio/crud/index';\n@import '~@fortawesome/fontawesome-free/css/all.css';",$appscss);
+        if (!strpos($appscss,'@import \'./vendor/nos/crud/index\';')) {
+            $appscss= str_replace('@import \'~bootstrap/scss/bootstrap\';', "@import '~bootstrap/scss/bootstrap';\n@import './vendor/nos/crud/index';\n@import '~@fortawesome/fontawesome-free/css/all.css';",$appscss);
             file_put_contents(resource_path('sass/app.scss'),$appscss);
         }
         $this->info("Publishing dummies...");

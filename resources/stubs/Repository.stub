@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Interfaces\Repositories\{{modelName}}RepositoryInterface;
+use App\Models\{{modelName}};
+use Nos\CRUD\Repositories\BaseRepository;
+
+final class {{modelName}}Repository extends BaseRepository implements {{modelName}}RepositoryInterface
+{
+    protected string $class = {{modelName}}::class;
+}

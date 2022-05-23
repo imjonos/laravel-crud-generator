@@ -1,4 +1,4 @@
-@extends('codersstudio.crud::layouts.app')
+@extends('nos.crud::layouts.app')
 
 @section('title', trans('crud.{{SingularName}}.title'))
 

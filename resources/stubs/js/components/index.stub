@@ -1,4 +1,4 @@
-import MixinsIndex from '../../../vendor/codersstudio/crud/mixins/index.js'
+import MixinsIndex from '../../../vendor/nos/crud/mixins/index.js'
 
 Vue.component('{{SingularName}}-index', {
     data() {

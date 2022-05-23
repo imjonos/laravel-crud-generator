@@ -1,4 +1,4 @@
-@component('codersstudio.crud::fields.textarea', [
+@component('nos.crud::fields.textarea', [
 	'required' => {{Required}}
 ])
     @slot('label')

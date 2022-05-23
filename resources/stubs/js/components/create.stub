@@ -1,4 +1,4 @@
-import MixinsCreate from '../../../vendor/codersstudio/crud/mixins/create.js'
+import MixinsCreate from '../../../vendor/nos/crud/mixins/create.js'
 
 Vue.component('{{SingularName}}-create', {
     data() {

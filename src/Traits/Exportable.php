@@ -1,25 +1,20 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Traits;
+namespace Nos\CRUD\Traits;
 
-use CodersStudio\CRUD\Http\Requests\ExportRequest;
+use Nos\CRUD\Http\Requests\ExportRequest;
 
 /**
  * Trait Exportable for the CRUD Controller
- * @package CodersStudio\CRUD\Traits
+ * @package Nos\CRUD\Traits
  */
-trait Exportable{
-
-    /**
-     * Set the Export class
-     * @return mixed
-     */
-    abstract public function getExportObject();
+trait Exportable
+{
 
     /**
      * Export action
@@ -30,4 +25,10 @@ trait Exportable{
     {
         return $this->getExportObject()->download('export.xlsx');
     }
+
+    /**
+     * Set the Export class
+     * @return mixed
+     */
+    abstract public function getExportObject();
 }

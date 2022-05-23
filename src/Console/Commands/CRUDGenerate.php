@@ -5,7 +5,7 @@
  * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Console\Commands;
+namespace Nos\CRUD\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\File;
 
 /**
  * Class CRUDGenerate
- * @package CodersStudio\CRUD\Console\Commands
+ * @package Nos\CRUD\Console\Commands
  */
 class CRUDGenerate extends Command
 {
@@ -323,7 +323,7 @@ class CRUDGenerate extends Command
         $singularName = Str::singular($this->tableName);
         $lowerSingularName = strtolower($singularName);
         $lowerTableName = strtolower($this->tableName);
-        $menuBladeFilePath = base_path('/resources/views/vendor/codersstudio/crud/layouts/menu.blade.php');
+        $menuBladeFilePath = base_path('/resources/views/vendor/nos/crud/layouts/menu.blade.php');
         if (!file_exists($menuBladeFilePath)) {
             $this->info("Menu template file not found!");
             return;
@@ -991,7 +991,7 @@ class CRUDGenerate extends Command
     {
         $pathName = ($this->route) ? ucfirst($this->route) : '';
         $customPath =  ($pathName) ? strtolower($pathName) . '/' : '';
-        $componentFilePath = base_path('resources/js/vendor/codersstudio/crud/index.js');
+        $componentFilePath = base_path('resources/js/vendor/nos/crud/index.js');
         $name = strtolower($name);
         $singularName = $this->tableName;
         $componentFile = File::get($componentFilePath);

@@ -24,7 +24,7 @@ use App\Models\{{modelName}};
 
 /**
  * Class CRUDController
- * @package CodersStudio\CRUD\Http\Controllers
+ * @package Nos\CRUD\Http\Controllers
  */
 class {{modelName}}Controller extends Controller
 {

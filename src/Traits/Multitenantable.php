@@ -1,18 +1,18 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Traits;
+namespace Nos\CRUD\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Trait Multitenantable
- * @package CodersStudio\CRUD\Traits
+ * @package Nos\CRUD\Traits
  */
 trait Multitenantable
 {

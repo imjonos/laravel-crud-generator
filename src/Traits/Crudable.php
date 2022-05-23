@@ -5,17 +5,17 @@
  * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Traits;
+namespace Nos\CRUD\Traits;
 
 use Illuminate\Support\Str;
 
 /**
  * Trait Crudable used for Models
- * @package CodersStudio\CRUD\Traits
+ * @package Nos\CRUD\Traits
  */
 trait Crudable
 {
-    
+
     /**
      * Search by scopes (new version)
      * @param $query
@@ -37,8 +37,8 @@ trait Crudable
         }
         return $query->orderBy('id','desc');
     }
-    
-    
+
+
 
     /**
      * Scope for ordering results
@@ -60,7 +60,7 @@ trait Crudable
     {
         return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
     }
-    
+
     /**
      * Sync Many To Many Data
      *
