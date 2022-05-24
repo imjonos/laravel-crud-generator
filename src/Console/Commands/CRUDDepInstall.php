@@ -41,9 +41,10 @@ class CRUDDepInstall extends Command
             'vue2-dropzone',
             'vuex',
             'vue-multiselect'
-            ],
+        ],
 
     ];
+
     /**
      * Create a new command instance.
      *
@@ -65,23 +66,35 @@ class CRUDDepInstall extends Command
         foreach ($this->commands as $key => $command) {
             foreach ($command as $pr) {
                 $output = null;
-                exec('cd '.base_path().' && '.$key.' '.$pr, $output);
+                exec('cd ' . base_path() . ' && ' . $key . ' ' . $pr, $output);
             }
         }
 
-        $this->info( "Writing imports...");
+        $this->info("Writing imports...");
         $appjs = file_get_contents(resource_path('js/app.js'));
-        if (!strpos($appjs,'require(\'./vendor/nos/crud/index\');')) {
-            $appjs= str_replace('const app = new Vue({', "require('./vendor/nos/crud/index');\n\nconst app = new Vue({",$appjs);
-            file_put_contents(resource_path('js/app.js'),$appjs);
+        if (!strpos($appjs, 'require(\'./vendor/nos/crud/index\');')) {
+            $appjs = str_replace(
+                'const app = new Vue({',
+                "require('./vendor/nos/crud/index');\n\nconst app = new Vue({",
+                $appjs
+            );
+            file_put_contents(resource_path('js/app.js'), $appjs);
         }
         $appscss = file_get_contents(resource_path('sass/app.scss'));
-        if (!strpos($appscss,'@import \'./vendor/nos/crud/index\';')) {
-            $appscss= str_replace('@import \'~bootstrap/scss/bootstrap\';', "@import '~bootstrap/scss/bootstrap';\n@import './vendor/nos/crud/index';\n@import '~@fortawesome/fontawesome-free/css/all.css';",$appscss);
-            file_put_contents(resource_path('sass/app.scss'),$appscss);
+        if (!strpos($appscss, '@import \'./vendor/nos/crud/index\';')) {
+            $appscss = str_replace(
+                '@import \'~bootstrap/scss/bootstrap\';',
+                "@import '~bootstrap/scss/bootstrap';\n@import './vendor/nos/crud/index';\n@import '~@fortawesome/fontawesome-free/css/all.css';",
+                $appscss
+            );
+            file_put_contents(resource_path('sass/app.scss'), $appscss);
         }
         $this->info("Publishing dummies...");
         $output = null;
-        exec('cd '.base_path().' && php artisan vendor:publish --tag=crud.views && php artisan vendor:publish --tag=crud.js && php artisan vendor:publish --tag=crud.sass', $output);
+        exec(
+            'cd ' . base_path(
+            ) . ' && php artisan vendor:publish --tag=crud.views && php artisan vendor:publish --tag=crud.js && php artisan vendor:publish --tag=crud.sass',
+            $output
+        );
     }
 }

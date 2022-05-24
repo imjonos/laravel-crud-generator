@@ -8,13 +8,15 @@
 namespace Nos\CRUD;
 
 use Illuminate\Support\ServiceProvider;
+use Nos\CRUD\Console\Commands\CRUDDepInstall;
+use Nos\CRUD\Console\Commands\CRUDGenerate;
 
 class CRUDServiceProvider extends ServiceProvider
 {
 
     protected $commands = [
-        \Nos\CRUD\Console\Commands\CRUDGenerate::class,
-        \Nos\CRUD\Console\Commands\CRUDDepInstall::class
+        CRUDGenerate::class,
+        CRUDDepInstall::class
     ];
 
     /**

@@ -997,7 +997,7 @@ class CRUDGenerate extends Command
                             ],
                             [
                                 $filters,
-                                'App\\MOdels\\' . str_replace('_', '', Str::ucfirst($singularName))
+                                'App\\Models\\' . str_replace('_', '', Str::ucfirst($singularName))
                                 //TODO может это из контроллера лучше присылать?
                             ],
                             "views/filter/filters.blade"
@@ -1188,7 +1188,6 @@ class CRUDGenerate extends Command
         $pathName = ($this->route) ? ucfirst($this->route) : '';
         $customPath = ($pathName) ? strtolower($pathName) . '/' : '';
         $componentFilePath = base_path('resources/js/vendor/nos/crud/index.js');
-        $name = strtolower($name);
         $singularName = $this->tableName;
         $componentFile = File::get($componentFilePath);
         $pluralName = $this->route ? $this->route . "/" . $this->tableName : $this->tableName;
