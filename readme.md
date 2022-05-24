@@ -1,5 +1,6 @@
 # Laravel CRUD Generator
-Generate: 
+
+Generate:
 Controller,
 Tests,
 Model,
@@ -17,10 +18,17 @@ Seed
 Via Composer
 
 ``` bash
-$ composer require codersstudio/crud
+$ composer require nos/crud
+```
+
+Laravel 8
+
+``` bash
+$ composer require nos/crud 1.2-dev
 ```
 
 ## Usage
+
 ``` bash
 $ php artisan crud:install
 ```
@@ -29,26 +37,28 @@ $ php artisan crud:install
 $ php artisan crud:generate table_name [--route=admin] [--force=0] [--import=0] [--export=0]
 ```
 
-CodersStudio\CRUD\Traits\Multitenantable - you can use it on model 
+Nos\CRUD\Traits\Multitenantable - you can use it on model
 
 ## Import/Export enable
 
 Commands:
+
 ``` bash
 $ ./artisan crud:generate table_name --import=1 --export=1
 $ npm run dev/prod
 ```
 
 Blade files:
+
 ``` bash
-@include('vendor.codersstudio.crud.import', ['route' => route('{{table_name}}.import')])
-@include('vendor.codersstudio.crud.export', ['route' => route('{{table_name}}.export')])
+@include('vendor.nos.crud.import', ['route' => route('{{table_name}}.import')])
+@include('vendor.nos.crud.export', ['route' => route('{{table_name}}.export')])
 ```
 
-Controller 
+Controller
 
 ``` bash
-use CodersStudio\CRUD\Traits\{Importable, Exportable};
+use Nos\CRUD\Traits\{Importable, Exportable};
 use App\Exports\PostsExport;
 use App\Imports\PostsImport;
 
@@ -71,10 +81,14 @@ class PostController extends Controller
 ```
 
 ## File upload enable
+
 ```
 Based on spatie laravel-medialibrary
 
-Install: composer require spatie/laravel-medialibrary:^5.0.0
+Install: 
+composer require spatie/laravel-medialibrary:~7.0.0
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
+php artisan migrate
 
 Model:
 
@@ -101,10 +115,11 @@ class ModelExample extends Model implements HasMedia
     }
 }    
 ```
+
 ```
 View:
 
-@component('codersstudio.crud::fields.files', [
+@component('nos.crud::fields.files', [
     'required' => 0
 ])
     @slot('label')
@@ -125,7 +140,7 @@ View:
 ```
 Controller:
 
-use FileUploadable;
+use Nos\CRUD\Traits\FileUploadable;
 
 public function update(UpdateRequest $request, Post $post)
     {
@@ -133,13 +148,9 @@ public function update(UpdateRequest $request, Post $post)
         $post->update($request->all());
 ```
 
-
 ## Contributing
 
 Please see [contributing.md](contributing.md) for details and a todolist.
-
-## Thanks for the help
-Alexandr Tsysov, Victoria Apalkova, Artem Benescul
 
 ## License
 

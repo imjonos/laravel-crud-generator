@@ -1,4 +1,4 @@
-@component('codersstudio.crud::fields.checkbox', [
+@component('nos.crud::fields.checkbox', [
 	'required' => {{Required}}
 ])
     @slot('label')

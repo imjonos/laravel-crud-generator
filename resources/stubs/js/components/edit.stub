@@ -1,4 +1,4 @@
-import MixinsEdit from '../../../vendor/codersstudio/crud/mixins/edit.js'
+import MixinsEdit from '../../../vendor/nos/crud/mixins/edit.js'
 
 Vue.component('{{SingularName}}-edit', {
     data() {

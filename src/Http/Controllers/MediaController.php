@@ -1,20 +1,20 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Http\Controllers;
+namespace Nos\CRUD\Http\Controllers;
 
-use CodersStudio\CRUD\Http\Requests\UploadRequest;
 use Illuminate\Routing\Controller;
+use Nos\CRUD\Http\Requests\UploadRequest;
 
 class MediaController extends Controller
 {
@@ -22,11 +22,12 @@ class MediaController extends Controller
     {
         if (!empty(config('crud.upload_extensions'))) {
             $ext = $request->file('file')->getClientOriginalExtension();
-            if (!in_array($ext,config('crud.upload_extensions'))) {
+            if (!in_array($ext, config('crud.upload_extensions'))) {
                 abort(422, 'Unsopported file format');
             }
         }
         $path = $request->file('file')->store('files');
+
         return response([
             'path' => $path
         ]);

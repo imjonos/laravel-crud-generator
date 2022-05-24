@@ -1,13 +1,13 @@
 /**
-* CodersStudio 2020
-* https://coders.studio
-* info@coders.studio
-*/
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
+ */
 
 
 export default {
-	name: 'MixinsCreate',
-	data() {
+    name: 'MixinsCreate',
+    data() {
         return {
             form: {},
             loading: false,
@@ -29,28 +29,28 @@ export default {
             this.errors.clear();
             this.loading = true;
             axios.post(this.link, this.form)
-            .then(response => {
-                window.location.href = this.link;
-                this.systemMessage('success',{
-                    'title':this.trans('crud.actions.info'),
-                    'text':this.trans('crud.actions.success.create')
-                });
-            })
-            .catch(error => {
-                this.systemMessage('error',{
-                    'title':this.trans('crud.actions.warning'),
-                    'text':this.trans('crud.actions.fail.create')
-                });
-                _.forEach(error.response.data.errors, (item, index) => {
-                    this.errors.add({
-                        field: index,
-                        msg: _.head(item)
+                .then(response => {
+                    window.location.href = this.link;
+                    this.systemMessage('success', {
+                        'title': this.trans('crud.actions.info'),
+                        'text': this.trans('crud.actions.success.create')
                     });
                 })
-            })
-            .finally(() => {
-                this.loading = false;
-            });
+                .catch(error => {
+                    this.systemMessage('error', {
+                        'title': this.trans('crud.actions.warning'),
+                        'text': this.trans('crud.actions.fail.create')
+                    });
+                    _.forEach(error.response.data.errors, (item, index) => {
+                        this.errors.add({
+                            field: index,
+                            msg: _.head(item)
+                        });
+                    })
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         }
 
     }

@@ -1,4 +1,4 @@
-@component('codersstudio.crud::fields.radio', [
+@component('nos.crud::fields.radio', [
 	'required' => {{Required}}
 ])
     @slot('label')

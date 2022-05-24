@@ -1,18 +1,19 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2021
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use CodersStudio\CRUD\Traits\Crudable;
+use Nos\CRUD\Traits\Crudable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class {{modelName}} extends Model
 {
-    use Crudable;
+    use Crudable, HasFactory;
 
    /**
      * Columns available for sorting
@@ -20,8 +21,18 @@ class {{modelName}} extends Model
      */
     protected $sortable = {{sortable}};
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = {{fillable}};
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = {{hidden}};
 
     {{Relations}}

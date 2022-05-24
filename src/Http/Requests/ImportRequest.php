@@ -1,17 +1,17 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
-namespace CodersStudio\CRUD\Http\Requests;
+namespace Nos\CRUD\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ImportRequest
- * @package CodersStudio\CRUD
+ * @package Nos\CRUD
  */
 class ImportRequest extends FormRequest
 {
@@ -24,8 +24,8 @@ class ImportRequest extends FormRequest
     }
 
     /**
-    * rules
-    */
+     * rules
+     */
     public function rules()
     {
         return [

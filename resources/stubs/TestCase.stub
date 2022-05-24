@@ -1,4 +1,9 @@
 <?php
+/**
+ * Eugeny Nosenko 2021
+ * https://toprogram.ru
+ * info@toprogram.ru
+ */
 
 namespace Tests;
 

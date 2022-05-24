@@ -1,17 +1,34 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2021
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
+ 
+namespace Database\Factories;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\{{modelName}};
-use Illuminate\Support\Str;
-use Faker\Generator as Faker;
+use App\Models\{{modelName}};
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define({{modelName}}::class, function (Faker $faker) {
-    return [
-        {{return}}
-    ];
-});
+class {{modelName}}Factory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = {{modelName}}::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            {{return}}
+        ];
+    }
+}
+

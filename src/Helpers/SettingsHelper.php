@@ -10,7 +10,7 @@ if (!function_exists('getSetting')) {
     function getSetting(string $name): string
     {
         $result = '';
-        $setting = \CodersStudio\CRUD\Setting::ofName($name)->first();
+        $setting = \Nos\CRUD\Setting::ofName($name)->first();
         if ($setting) {
             $result = $setting->value;
         }
@@ -29,7 +29,7 @@ if (!function_exists('setSetting')) {
     function setSetting(string $name, string $value): bool
     {
         $result = false;
-        $setting = \CodersStudio\CRUD\Setting::ofName($name)->first();
+        $setting = \Nos\CRUD\Setting::ofName($name)->first();
         if ($setting) {
             try {
                 $setting->update(['value' => $value]);

@@ -9,69 +9,156 @@
                          :options="data"
                          :name="name"
                          :show-labels="false"
-                         :taggable="true"
+                         :taggable="multiple"
                          deselectLabel="x"
                          selectLabel=""
                          selectedLabel=""
                          tagPlaceholder=""
                          :preselect-first="false"
-                         :allowEmpty="false"
-                         :multiple="true">
+                         :allowEmpty="allowEmpty"
+                         @search-change="getData"
+                         :multiple="multiple">
             <template slot="singleLabel" slot-scope="props">
                 {{ props.option.name }}
             </template>
             <template slot="tag" slot-scope="props">
                 <span class="multiselect__tag">
                     <span> {{ props.option.name }} </span>
-                    <i aria-hidden="true" tabindex="1" class="multiselect__tag-icon"></i>
+                    <i aria-hidden="true" @click="removeTag(props.option.id)" tabindex="1"
+                       class="multiselect__tag-icon"></i>
                 </span>
             </template>
             <template slot="option" slot-scope="props">
                 <div class="option__desc">
                    <span class="option__title">
-                    {{ props.option.name }}
-                </span>
+                        {{ props.option.name }}
+                   </span>
                 </div>
             </template>
         </vue-multiselect>
     </div>
 </template>
 <script>
-    import VueMultiselect from 'vue-multiselect'
+import VueMultiselect from 'vue-multiselect'
 
-    export default {
-        name: "multi-select",
-        components: {
-            VueMultiselect
+export default {
+    name: "multi-select",
+    components: {
+        VueMultiselect
+    },
+    data() {
+        return {
+            selected: this.value,
+            data: this.options
+        }
+    },
+    props: {
+        placeholder: {
+            type: String,
+            default: ""
         },
-        data() {
-            return {
-                selected: this.value,
-                data: this.options
+        name: {
+            type: String,
+            default: ""
+        },
+        searchBy: {
+            type: String,
+            default: "name"
+        },
+        multiple: {
+            type: Boolean,
+            default: true
+        },
+        value: {
+            type: Array | Object,
+            default: () => []
+        },
+        allowEmpty: {
+            type: Boolean,
+            default: true
+        },
+        options: {
+            type: Array,
+            default: () => [
+                {id: '1', name: 'Option'},
+            ]
+        },
+        resourceUrl: {
+            type: String,
+            default: ""
+        }
+    },
+    mounted() {
+        this.getData();
+        if(!this.multiple && this.value) {
+            this.getItem(this.value);
+        }
+    },
+    methods: {
+        removeTag(id) {
+            let tags = JSON.parse(JSON.stringify(this.selected));
+            _.remove(tags, el => Number(el.id) === Number(id));
+            this.selected = tags;
+        },
+        getItem(id = null) {
+            if (this.resourceUrl && id) {
+                let index = this.resourceUrl.indexOf('?');
+                let url = (index>0)?this.resourceUrl.slice(0, index):this.resourceUrl;
+                axios.get(url + '/' + id).then(response => {
+                    let item = response.data.data;
+                    if (item.hasOwnProperty('id')) {
+                        this.selected = {
+                            id: item.id,
+                            name: item.attributes.name
+                        }
+                    }
+                }).catch(error => {
+                    console.log(error);
+                });
             }
         },
-        props: {
-            placeholder: {
-                default: ""
-            },
-            name: {
-                default: ""
-            },
-            value: {
-                default: () => []
-            },
-            options: {
-                default: () => [
-                    {id: '1', name: 'Option'},
-                ]
-            },
+        getData(searchQuery = '') {
+            if (this.resourceUrl) {
+                let searchParams = '';
+                if (_.size(searchQuery) > 1) {
+                    searchParams = '?';
+                    if(this.resourceUrl.indexOf('?')>0) searchParams = '&';
+                    searchParams += 'filter[' + this.searchBy + ']=' + searchQuery;
+                }
+
+                axios.get(this.resourceUrl + searchParams).then(response => {
+                    this.data = _.map(response.data.data, item => {
+                        if (!_.isEmpty(item)) {
+                            return {
+                                id: item.id,
+                                name: item.attributes.name
+                            }
+                        }
+                    });
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        }
+
+    },
+    watch: {
+        selected(val) { //Для v-model в родитель
+            let result = null;
+            if (!_.isEmpty(val)) {
+                if (this.multiple) result = val;
+                else
+                    result = val.id;
+            }
+
+            this.$emit('input', result);
         },
-        methods: {},
-        watch: {
-            selected(val) { //Для v-model в родитель
-                this.$emit('input', val);
+        value(val) {
+            if(_.isEmpty(val)){
+                this.selected = val;
             }
         }
     }
+}
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

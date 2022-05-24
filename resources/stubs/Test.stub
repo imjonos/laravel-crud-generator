@@ -1,8 +1,8 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2021
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
 namespace Tests\Feature\Admin;
@@ -10,12 +10,12 @@ namespace Tests\Feature\Admin;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\{{ModelName}};
-use App\User;
+use App\Models\{{ModelName}};
+use App\Models\User;
 
 class {{ModelName}}ControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * Test Index {{ModelName}} functionality
@@ -72,7 +72,6 @@ class {{ModelName}}ControllerTest extends TestCase
 
         $this->seed(\{{PluralName}}TableSeeder::class);
 
-        ${{singularName}} = {{ModelName}}::firstOrFail();
 
         $data = [
             {{fieldsStore}}
@@ -130,7 +129,7 @@ class {{ModelName}}ControllerTest extends TestCase
         $user = User::first();
 
         $this->seed(\{{PluralName}}TableSeeder::class);
-
+        
         ${{singularName}} = {{ModelName}}::firstOrFail();
 
         $data = [
@@ -177,7 +176,7 @@ class {{ModelName}}ControllerTest extends TestCase
             'selected' => $items
          ]);
          $response->assertStatus(204);
-         $this->assertDatabaseMissing('users', [
+         $this->assertDatabaseMissing('{{tableName}}', [
             'id' => $items[0]
          ]);
      }

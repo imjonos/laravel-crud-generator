@@ -1,9 +1,9 @@
 <?php
 /**
-* CodersStudio 2020
-* https://coders.studio
-* info@coders.studio
-*/
+ * Eugeny Nosenko 2022
+ * https://toprogram.ru
+ * info@toprogram.ru
+ */
 
 namespace App\Http\Controllers{{namespacePath}};
 
@@ -19,27 +19,42 @@ use App\Http\Requests{{namespacePath}}\{{modelName}}\{
     MassDestroyRequest,
     ToggleBooleanRequest
 };
-use App\{{modelName}};
+use App\Models\{{modelName}};
+use App\Services\{{modelName}}Service;
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 {{uses}}
 
 /**
  * Class CRUDController
- * @package CodersStudio\CRUD\Http\Controllers
+ * @package Nos\CRUD\Http\Controllers
  */
 class {{modelName}}Controller extends Controller
 {
+    protected {{modelName}}Service ${{modelNameSingularLowerCase}}Service;
+
+    public function __construct({{modelName}}Service ${{modelNameSingularLowerCase}}Service)
+    {
+        $this->{{modelNameSingularLowerCase}}Service = ${{modelNameSingularLowerCase}}Service;
+    }
+
     /**
      * List of records
      * @param IndexRequest $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return JsonResponse|View
      */
     public function index(IndexRequest $request)
     {
         $fields = [
             {{fields}}
         ];
-        $model = new {{modelName}}();
-        $data = $model->ofSearch($fields, $request->all()){{with}}->paginate($request->get('per_page', 10));
+        $with = [];
+        $limit = $request->get('per_page', 10);
+        $data = $this->{{modelNameSingularLowerCase}}Service->search($request->all(), $fields, $with, $limit);
         $response = [
             'data' => $data,
             'selected' => [
@@ -49,13 +64,14 @@ class {{modelName}}Controller extends Controller
         if ($request->ajax()) {
             return response()->json($response);
         }
+
         return view('{{modelNamePluralLowerCase}}.index', $response);
     }
 
     /**
      * Create form
      * @param CreateRequest $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function create(CreateRequest $request)
     {
@@ -65,14 +81,16 @@ class {{modelName}}Controller extends Controller
     /**
      * Store row
      * @param StoreRequest $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return JsonResponse|RedirectResponse|Redirector
+     * @throws Exception
      */
     public function store(StoreRequest $request)
     {
-        $newItem = {{modelName}}::create($request->validated());
+        $newItem = $this->{{modelNameSingularLowerCase}}Service->create($request->validated());
         if ($request->ajax()) {
             return response()->json(['data' => $newItem], 201);
         }
+
         return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
@@ -80,7 +98,7 @@ class {{modelName}}Controller extends Controller
      * Show row
      * @param ShowRequest $request
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function show(ShowRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
@@ -93,7 +111,7 @@ class {{modelName}}Controller extends Controller
      * Edit form
      * @param EditRequest $request
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function edit(EditRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
@@ -107,14 +125,15 @@ class {{modelName}}Controller extends Controller
      * Update row
      * @param UpdateRequest $request
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return JsonResponse|RedirectResponse|Redirector
      */
     public function update(UpdateRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
-        ${{modelNameSingularLowerCase}}->update($request->validated());
+        $this->{{modelNameSingularLowerCase}}Service->update(${{modelNameSingularLowerCase}}->id, $request->validated());
         if ($request->ajax()) {
             return response()->json(['data' => ${{modelNameSingularLowerCase}}]);
         }
+
         return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
@@ -122,32 +141,33 @@ class {{modelName}}Controller extends Controller
      * Destroy row
      * @param DestroyRequest $request
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
+     * @return JsonResponse|RedirectResponse|Redirector
+     * @throws Exception
      */
     public function destroy(DestroyRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
-        ${{modelNameSingularLowerCase}}->delete();
+        $this->{{modelNameSingularLowerCase}}->delete(${{modelNameSingularLowerCase}}->id);
         if ($request->ajax()) {
             return response()->json([],204);
         }
+
         return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
     /**
      * Destroy multiple rows
      * @param MassDestroyRequest $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return JsonResponse|RedirectResponse|Redirector
      */
     public function massDestroy(MassDestroyRequest $request)
     {
-        $forDestroy = {{modelName}}::whereIn('id',$request->get('selected'))->get();
-        foreach ($forDestroy as $item) {
-            $item->delete();
+        foreach ($request->get('selected', []) as $id) {
+            $this->{{modelNameSingularLowerCase}}->delete($id);
         }
         if ($request->ajax()) {
             return response()->json([],204);
         }
+
         return redirect(route('{{modelNamePluralLowerCase}}.index'));
     }
 
@@ -155,7 +175,7 @@ class {{modelName}}Controller extends Controller
      * Toggle boolean fields from index table
      * @param ToggleBooleanRequest $request
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function toggleBoolean(ToggleBooleanRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
@@ -163,7 +183,10 @@ class {{modelName}}Controller extends Controller
                     ${{modelNameSingularLowerCase}}->getKeyType( $request->get('column_name')) != 'int') {
                         abort(400,'Wrong column!');
                     }
-        ${{modelNameSingularLowerCase}}->update([$request->get('column_name') => $request->get('value')]);
+        $this->priceOfferViewService->update(${{modelNameSingularLowerCase}}->id, [
+            $request->get('column_name') => $request->get('value')
+        ]);
+
         return response()->json(['data' => ${{modelNameSingularLowerCase}}]);
     }
 }

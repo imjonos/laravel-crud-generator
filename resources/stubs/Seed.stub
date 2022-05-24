@@ -1,10 +1,11 @@
 <?php
 /**
- * CodersStudio 2019
- * https://coders.studio
- * info@coders.studio
+ * Eugeny Nosenko 2021
+ * https://toprogram.ru
+ * info@toprogram.ru
  */
 
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 class {{Name}}TableSeeder extends Seeder
@@ -16,7 +17,7 @@ class {{Name}}TableSeeder extends Seeder
      */
     public function run()
     {
-        {{callSeeder}}
-        factory(App\{{modelName}}::class, 20)->create();
+         {{callSeeder}}
+         \App\Models\{{modelName}}::factory(20)->create();
     }
 }
