@@ -18,13 +18,8 @@ Seed
 Via Composer
 
 ``` bash
-$ composer require nos/crud
-```
+$ composer require imjonos/laravel-crud-generator
 
-Laravel 8
-
-``` bash
-$ composer require nos/crud 1.2-dev
 ```
 
 ## Usage
