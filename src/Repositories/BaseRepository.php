@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Nos\CRUD\Interfaces\Repositories\EloquentRepositoryInterface;
 
-class BaseRepository implements EloquentRepositoryInterface
+abstract class BaseRepository implements EloquentRepositoryInterface
 {
     protected string $class = Model::class;
     private ?Model $model = null;

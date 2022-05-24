@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Services;
+
+use App\Repositories\{{modelName}}Repository;
+use Nos\CRUD\Services\BaseService;
+
+final class {{modelName}}Service extends BaseService
+{
+    protected string $repositoryClass = {{modelName}}Repository::class;
+}
