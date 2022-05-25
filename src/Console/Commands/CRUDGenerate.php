@@ -722,7 +722,7 @@ class CRUDGenerate extends Command
             mkdir($path, 0755, true);
         }
 
-        if (!file_exists($path = app_path("Interfaces/Repositories" . $name))) {
+        if (!file_exists($path = app_path('/Interfaces/Repositories'))) {
             mkdir($path, 0755, true);
         }
 
