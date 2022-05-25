@@ -456,7 +456,7 @@ class CRUDGenerate extends Command
         }
 
         if ($with) {
-            $with = '->with([' . substr($with, 0, -1) . '])';
+            $with = substr($with, 0, -1);
         }
 
         $controllerTemplate = $this->makeTemplate(
@@ -722,7 +722,7 @@ class CRUDGenerate extends Command
             mkdir($path, 0755, true);
         }
 
-        if (!file_exists($path = app_path("Interfaces/Repositories" . $name))) {
+        if (!file_exists($path = app_path('/Interfaces/Repositories'))) {
             mkdir($path, 0755, true);
         }
 
