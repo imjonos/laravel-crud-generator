@@ -3,6 +3,7 @@
 namespace Nos\CRUD\Services;
 
 use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Nos\CRUD\Repositories\BaseRepository;
@@ -10,29 +11,42 @@ use Nos\CRUD\Repositories\BaseRepository;
 abstract class BaseService
 {
     protected string $repositoryClass = BaseRepository::class;
-    private BaseRepository $repository;
+    private ?BaseRepository $repository = null;
 
-    public function __construct()
-    {
-        $this->repository = app()->make($this->repositoryClass);
-    }
-
+    /**
+     * @throws BindingResolutionException
+     */
     public function search(
         array $filter = [],
         array $fields = ['*'],
         array $with = [],
         int $limit = 10
     ): LengthAwarePaginator {
-        return $this->repository
+        return $this->getRepository()
             ->query()
             ->ofSearch($fields, $filter)
             ->with($with)
             ->paginate($limit);
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
+    public function getRepository(): BaseRepository
+    {
+        if (!$this->repository) {
+            $this->repository = app()->make($this->repositoryClass);
+        }
+
+        return $this->repository;
+    }
+
+    /**
+     * @throws BindingResolutionException
+     */
     public function update(int $modeId, array $data): bool
     {
-        return $this->repository->update($modeId, $data);
+        return $this->getRepository()->update($modeId, $data);
     }
 
     /**
@@ -40,7 +54,7 @@ abstract class BaseService
      */
     public function create(array $data): Model
     {
-        $model = $this->repository->create($data);
+        $model = $this->getRepository()->create($data);
 
         if (!$model) {
             throw new Exception(trans('exceptions.price_offer_view_not_created'));
@@ -49,8 +63,11 @@ abstract class BaseService
         return $model;
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     public function delete(int $modeId): bool
     {
-        return $this->repository->delete($modeId);
+        return $this->getRepository()->delete($modeId);
     }
 }

@@ -6,6 +6,10 @@ use App\Interfaces\Repositories\{{modelName}}RepositoryInterface;
 use App\Models\{{modelName}};
 use Nos\CRUD\Repositories\BaseRepository;
 
+/**
+ * @method {{modelName}} find(int $id)
+ * @method {{modelName}} create(array $data)
+ */
 final class {{modelName}}Repository extends BaseRepository implements {{modelName}}RepositoryInterface
 {
     protected string $class = {{modelName}}::class;
