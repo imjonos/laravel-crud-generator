@@ -456,7 +456,7 @@ class CRUDGenerate extends Command
         }
 
         if ($with) {
-            $with = '->with([' . substr($with, 0, -1) . '])';
+            $with = substr($with, 0, -1);
         }
 
         $controllerTemplate = $this->makeTemplate(

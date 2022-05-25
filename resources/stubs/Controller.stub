@@ -52,7 +52,9 @@ class {{modelName}}Controller extends Controller
         $fields = [
             {{fields}}
         ];
-        $with = [];
+        $with = [
+            {{with}}
+        ];
         $limit = $request->get('per_page', 10);
         $data = $this->{{modelNameSingularLowerCase}}Service->search($request->all(), $fields, $with, $limit);
         $response = [
