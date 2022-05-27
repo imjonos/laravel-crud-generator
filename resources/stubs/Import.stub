@@ -10,7 +10,7 @@ namespace App\Imports;
 use Maatwebsite\Excel\Concerns\{ToModel, Importable};
 use App\Models\{{modelName}};
 
-class {{modelNamePlural}}Import implements ToModel
+final class {{modelNamePlural}}Import implements ToModel
 {
     use Importable;
 

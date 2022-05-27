@@ -8,7 +8,7 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
-class {{Name}}TableSeeder extends Seeder
+final class {{Name}}TableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -13,7 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class {{requestName}}Request
  * @package Nos\CRUD
  */
-class {{requestName}}Request extends FormRequest
+final class {{requestName}}Request extends FormRequest
 {
     /**
      * authorize

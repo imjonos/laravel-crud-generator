@@ -4,13 +4,13 @@
  * https://toprogram.ru
  * info@toprogram.ru
  */
- 
+
 namespace Database\Factories;
 
 use App\Models\{{modelName}};
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class {{modelName}}Factory extends Factory
+final class {{modelName}}Factory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -31,4 +31,3 @@ class {{modelName}}Factory extends Factory
         ];
     }
 }
-

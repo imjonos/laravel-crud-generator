@@ -10,7 +10,7 @@ namespace App\Exports;
 use Maatwebsite\Excel\Concerns\{FromCollection, Exportable};
 use App\Models\{{modelName}};
 
-class {{modelNamePlural}}Export implements FromCollection
+final class {{modelNamePlural}}Export implements FromCollection
 {
     use Exportable;
 

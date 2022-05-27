@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\{{ModelName}};
 use App\Models\User;
 
-class {{ModelName}}ControllerTest extends TestCase
+final class {{ModelName}}ControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
@@ -129,7 +129,7 @@ class {{ModelName}}ControllerTest extends TestCase
         $user = User::first();
 
         $this->seed(\{{PluralName}}TableSeeder::class);
-        
+
         ${{singularName}} = {{ModelName}}::firstOrFail();
 
         $data = [
