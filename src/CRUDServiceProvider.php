@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
 use Nos\CRUD\Console\Commands\CRUDDepInstall;
 use Nos\CRUD\Console\Commands\CRUDGenerate;
 
-class CRUDServiceProvider extends ServiceProvider
+final class CRUDServiceProvider extends ServiceProvider
 {
 
     protected $commands = [

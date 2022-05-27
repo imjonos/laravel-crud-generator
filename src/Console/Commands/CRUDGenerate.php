@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
  * Class CRUDGenerate
  * @package Nos\CRUD\Console\Commands
  */
-class CRUDGenerate extends Command
+final class CRUDGenerate extends Command
 {
     /**
      * The name and signature of the console command.

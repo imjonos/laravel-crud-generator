@@ -7,7 +7,7 @@
 
 namespace Nos\CRUD;
 
-class CRUD
+final class CRUD
 {
     // Build wonderful things
 }

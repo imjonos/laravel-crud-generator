@@ -13,7 +13,7 @@ use Illuminate\Console\Command;
  * Class CRUDGenerate
  * @package Nos\CRUD\Console\Commands
  */
-class CRUDDepInstall extends Command
+final class CRUDDepInstall extends Command
 {
     /**
      * The name and signature of the console command.
