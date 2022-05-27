@@ -2,17 +2,12 @@
 
 namespace Nos\CRUD\Services;
 
-use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Nos\CRUD\Repositories\BaseRepository;
+use Nos\BaseService\BaseService as Service;
 
-abstract class BaseService
+abstract class BaseService extends Service
 {
-    protected string $repositoryClass = BaseRepository::class;
-    private ?BaseRepository $repository = null;
-
     /**
      * @throws BindingResolutionException
      */
@@ -27,47 +22,5 @@ abstract class BaseService
             ->ofSearch($fields, $filter)
             ->with($with)
             ->paginate($limit);
-    }
-
-    /**
-     * @throws BindingResolutionException
-     */
-    public function getRepository(): BaseRepository
-    {
-        if (!$this->repository) {
-            $this->repository = app()->make($this->repositoryClass);
-        }
-
-        return $this->repository;
-    }
-
-    /**
-     * @throws BindingResolutionException
-     */
-    public function update(int $modeId, array $data): bool
-    {
-        return $this->getRepository()->update($modeId, $data);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function create(array $data): Model
-    {
-        $model = $this->getRepository()->create($data);
-
-        if (!$model) {
-            throw new Exception(trans('exceptions.price_offer_view_not_created'));
-        }
-
-        return $model;
-    }
-
-    /**
-     * @throws BindingResolutionException
-     */
-    public function delete(int $modeId): bool
-    {
-        return $this->getRepository()->delete($modeId);
     }
 }
