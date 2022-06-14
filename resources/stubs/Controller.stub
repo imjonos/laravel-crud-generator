@@ -128,6 +128,7 @@ class {{modelName}}Controller extends Controller
      * @param UpdateRequest $request
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
      * @return JsonResponse|RedirectResponse|Redirector
+     * @throws Exception
      */
     public function update(UpdateRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
@@ -148,7 +149,7 @@ class {{modelName}}Controller extends Controller
      */
     public function destroy(DestroyRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
-        $this->{{modelNameSingularLowerCase}}->delete(${{modelNameSingularLowerCase}}->id);
+        $this->{{modelNameSingularLowerCase}}Service->delete(${{modelNameSingularLowerCase}}->id);
         if ($request->ajax()) {
             return response()->json([],204);
         }
@@ -160,11 +161,12 @@ class {{modelName}}Controller extends Controller
      * Destroy multiple rows
      * @param MassDestroyRequest $request
      * @return JsonResponse|RedirectResponse|Redirector
+     * @throws Exception
      */
     public function massDestroy(MassDestroyRequest $request)
     {
         foreach ($request->get('selected', []) as $id) {
-            $this->{{modelNameSingularLowerCase}}->delete($id);
+            $this->{{modelNameSingularLowerCase}}Service->delete($id);
         }
         if ($request->ajax()) {
             return response()->json([],204);
@@ -178,6 +180,7 @@ class {{modelName}}Controller extends Controller
      * @param ToggleBooleanRequest $request
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
      * @return JsonResponse
+     * @throws Exception
      */
     public function toggleBoolean(ToggleBooleanRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
     {
@@ -185,7 +188,7 @@ class {{modelName}}Controller extends Controller
                     ${{modelNameSingularLowerCase}}->getKeyType( $request->get('column_name')) != 'int') {
                         abort(400,'Wrong column!');
                     }
-        $this->priceOfferViewService->update(${{modelNameSingularLowerCase}}->id, [
+        $this->{{modelNameSingularLowerCase}}Service->update(${{modelNameSingularLowerCase}}->id, [
             $request->get('column_name') => $request->get('value')
         ]);
 
