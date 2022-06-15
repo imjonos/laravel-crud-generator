@@ -1,12 +1,11 @@
 
     /**
      * Scope for filtering by {{name}}
-     * @param $query
-     * @param $value
-     * @return mixed
+     * @param Builder $query
+     * @param string $value
+     * @return Builder
      */
-    public function scopeOf{{camelName}}($query,$value)
+    public function scopeOf{{camelName}}(Builder $query, string $value): Builder
     {
         return $query->where('{{name}}','=',$value);
     }
-
