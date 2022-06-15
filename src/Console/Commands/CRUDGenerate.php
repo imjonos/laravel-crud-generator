@@ -948,7 +948,7 @@ class CRUDGenerate extends Command
     @endslot";
                             }
 
-                            $columnsArray .= "      ['name' => '$columnName', 'order' => true]" . PHP_EOL;
+                            $columnsArray .= "      ['name' => '$columnName', 'order' => true]," . PHP_EOL;
                         }
                     }
                     $requestTemplate = $this->makeTemplate(
