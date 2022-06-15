@@ -472,9 +472,9 @@ class CRUDGenerate extends Command
                 '{{namespacePath}}'
             ],
             [
-                Str::singular($name),
+                $singularName,
                 strtolower($pathViews),
-                strtolower($singularName),
+                lcfirst($singularName),
                 $this->tableName,
                 $fields,
                 $selected,

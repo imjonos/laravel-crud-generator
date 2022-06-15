@@ -47,7 +47,7 @@ class {{modelName}}Controller extends Controller
      * @param IndexRequest $request
      * @return JsonResponse|View
      */
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request): JsonResponse|View
     {
         $fields = [
             {{fields}}
@@ -75,7 +75,7 @@ class {{modelName}}Controller extends Controller
      * @param CreateRequest $request
      * @return Factory|View
      */
-    public function create(CreateRequest $request)
+    public function create(CreateRequest $request): Factory|View
     {
         return view('{{modelNamePluralLowerCase}}.create');
     }
@@ -86,7 +86,7 @@ class {{modelName}}Controller extends Controller
      * @return JsonResponse|RedirectResponse|Redirector
      * @throws Exception
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): JsonResponse|RedirectResponse|Redirector
     {
         $newItem = $this->{{modelNameSingularLowerCase}}Service->create($request->validated());
         if ($request->ajax()) {
@@ -102,7 +102,7 @@ class {{modelName}}Controller extends Controller
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
      * @return Factory|View
      */
-    public function show(ShowRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
+    public function show(ShowRequest $request, {{modelName}} ${{modelNameSingularLowerCase}}): Factory|View
     {
         return view('{{modelNamePluralLowerCase}}.show', [
             'data' => ${{modelNameSingularLowerCase}}
@@ -115,7 +115,7 @@ class {{modelName}}Controller extends Controller
      * @param {{modelName}} ${{modelNameSingularLowerCase}}
      * @return Factory|View
      */
-    public function edit(EditRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
+    public function edit(EditRequest $request, {{modelName}} ${{modelNameSingularLowerCase}}): Factory|View
     {
         return view('{{modelNamePluralLowerCase}}.edit', [
             'data' => ${{modelNameSingularLowerCase}}
@@ -130,7 +130,7 @@ class {{modelName}}Controller extends Controller
      * @return JsonResponse|RedirectResponse|Redirector
      * @throws Exception
      */
-    public function update(UpdateRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
+    public function update(UpdateRequest $request, {{modelName}} ${{modelNameSingularLowerCase}}): JsonResponse|RedirectResponse|Redirector
     {
         $this->{{modelNameSingularLowerCase}}Service->update(${{modelNameSingularLowerCase}}->id, $request->validated());
         if ($request->ajax()) {
@@ -147,7 +147,7 @@ class {{modelName}}Controller extends Controller
      * @return JsonResponse|RedirectResponse|Redirector
      * @throws Exception
      */
-    public function destroy(DestroyRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
+    public function destroy(DestroyRequest $request, {{modelName}} ${{modelNameSingularLowerCase}}): JsonResponse|RedirectResponse|Redirector
     {
         $this->{{modelNameSingularLowerCase}}Service->delete(${{modelNameSingularLowerCase}}->id);
         if ($request->ajax()) {
@@ -163,7 +163,7 @@ class {{modelName}}Controller extends Controller
      * @return JsonResponse|RedirectResponse|Redirector
      * @throws Exception
      */
-    public function massDestroy(MassDestroyRequest $request)
+    public function massDestroy(MassDestroyRequest $request): JsonResponse|RedirectResponse|Redirector
     {
         foreach ($request->get('selected', []) as $id) {
             $this->{{modelNameSingularLowerCase}}Service->delete($id);
@@ -182,10 +182,10 @@ class {{modelName}}Controller extends Controller
      * @return JsonResponse
      * @throws Exception
      */
-    public function toggleBoolean(ToggleBooleanRequest $request, {{modelName}} ${{modelNameSingularLowerCase}})
+    public function toggleBoolean(ToggleBooleanRequest $request, {{modelName}} ${{modelNameSingularLowerCase}}): JsonResponse
     {
         if (!in_array($request->get('column_name'), ${{modelNameSingularLowerCase}}->getTableColumns()) ||
-                    ${{modelNameSingularLowerCase}}->getKeyType( $request->get('column_name')) != 'int') {
+                    ${{modelNameSingularLowerCase}}->getKeyType( $request->get('column_name')) !== 'int') {
                         abort(400,'Wrong column!');
                     }
         $this->{{modelNameSingularLowerCase}}Service->update(${{modelNameSingularLowerCase}}->id, [
