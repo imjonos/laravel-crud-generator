@@ -2,7 +2,6 @@
 
 @section('title', trans('crud.{{SingularName}}.title'))
 
-
 @section('content')
     <p>This is my body content.</p>
 @endsection

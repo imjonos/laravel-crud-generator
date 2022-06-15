@@ -1,3 +1,5 @@
-<div class="row">
-	{{Filters}}
-</div>
+@component('nos.crud::filters')
+    @slot('inputs')
+	    {{Filters}}
+   @endslot
+@endcomponent

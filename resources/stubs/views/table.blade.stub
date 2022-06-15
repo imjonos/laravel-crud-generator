@@ -1,41 +1,8 @@
-<div class="table-responsive mb-3">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="selectAll" @change="selectAll" v-model="allSelected" :value="true">
-                        <label class="custom-control-label" for="selectAll"></label>
-                    </div>
-                </th>
-                {{Th}}
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="item in data.data">
-                <td>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" :id="'check' + item.id" v-model="selectedCheckboxes" :value="item.id" @change="checkItem">
-                        <label class="custom-control-label" :for="'check' + item.id"></label>
-                    </div>
-                </td>
-                {{Td}}
-                <td class="nowrap">
-                    <a class="btn btn-primary btn-sm" :href="'/{{prefix}}{{PluralName}}/' + item.id + '/edit'" data-toggle="tooltip" data-placement="top" title="@lang('crud.buttons.edit')">
-                        <i class="fas fa-pen-square"></i>
-                    </a>
-                    <button class="btn btn-danger btn-sm" @click="destroy(item.id)" data-toggle="tooltip" data-placement="top" title="@lang('crud.buttons.delete')">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<b-pagination v-if="!loading"
-    v-model="data.current_page"
-    :total-rows="data.total"
-    :per-page="data.per_page"
-    @change="getData"
-></b-pagination>
+@component('nos.crud::table', [
+    'componentName' => '{{SingularNameKebab}}',
+    'columns' => [
+{{Columns}}
+    ]
+])
+{{Slots}}
+@endcomponent

@@ -1,3 +1,5 @@
-<div class="col-md-3">
-	{{Field}}
-</div>
+@component('nos.crud::filter')
+    @slot('input')
+	    {{Field}}
+    @endslot
+@endcomponent

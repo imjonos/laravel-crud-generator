@@ -120,7 +120,7 @@ class CRUDGenerate extends Command
      *
      * @var array
      */
-    protected $systemColumns = ['id', 'created_at', 'updated_at', 'deleted_at', 'remember_token'];
+    protected $systemColumns = ['id', 'created_at', 'updated_at', 'deleted_at', 'remember_token', 'password'];
 
     /**
      * @var string
@@ -936,54 +936,31 @@ class CRUDGenerate extends Command
                 );
             } else {
                 if ($view == "table") {
-                    $ThTemplate = '';
-                    $TdTemplate = '';
+                    $columnsArray = "";
+                    $slots = "";
                     foreach ($this->columns as $column) {
-                        if ($column['name'] == 'id' || !in_array(
-                                $column['name'],
-                                $this->systemColumns
-                            ) && $column['name'] != 'password') {
-                            $ThTemplate .= $this->makeTemplate(
-                                [
-                                    '{{modelNameSingularLowerCase}}',
-                                    '{{Name}}'
-                                ],
-                                [
-                                    $singularName,
-                                    $column['name']
-                                ],
-                                "views/table/th.blade"
-                            );
-                            $stub = $column['type'] == 'boolean' ? 'views/table/tdToggle.blade' : 'views/table/td.blade';
+                        if (!in_array($column['name'], $this->systemColumns)) {
                             $columnName = $column['name'];
                             if (isset($column['belongsTo']['name'])) {
-                                $columnName = $column['belongsTo']['name'] . ".name";
+                                $slotName = $column['belongsTo']['name'] . ".name";
+                                $slots .= "@slot('$columnName')
+        @{{ item.$slotName }}
+    @endslot";
                             }
-                            $TdTemplate .= $this->makeTemplate(
-                                [
-                                    '{{ColumnName}}',
-                                    '{{ColumnType}}',
-                                ],
-                                [
-                                    $columnName,
-                                    $column['type'],
-                                ],
-                                $stub
-                            );
+
+                            $columnsArray .= "      ['name' => '$columnName', 'order' => true]" . PHP_EOL;
                         }
                     }
                     $requestTemplate = $this->makeTemplate(
                         [
-                            '{{Th}}',
-                            '{{Td}}',
-                            '{{PluralName}}',
-                            '{{prefix}}'
+                            '{{Columns}}',
+                            '{{Slots}}',
+                            '{{SingularNameKebab}}'
                         ],
                         [
-                            $ThTemplate,
-                            $TdTemplate,
-                            $this->tableName,
-                            !empty($this->route) ? $this->route . '/' : ''
+                            $columnsArray,
+                            $slots,
+                            str_replace('_', '-', $singularName)
                         ],
                         "views/table.blade"
                     );
