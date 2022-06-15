@@ -19,11 +19,11 @@
                          track-by="id"
                          @search-change="getData">
             <template slot="singleLabel" slot-scope="props">
-                {{ getItemTitle(props.option) }}
+                {{ props.option.name }}
             </template>
             <template slot="tag" slot-scope="props">
                 <span class="multiselect__tag">
-                    <span> {{ getItemTitle(props.option) }} </span>
+                    <span> {{ props.option.name }} </span>
                     <i aria-hidden="true" class="multiselect__tag-icon" tabindex="1"
                        @click="removeTag(props.option.id)"></i>
                 </span>
@@ -31,7 +31,7 @@
             <template slot="option" slot-scope="props">
                 <div class="option__desc">
                    <span class="option__title">
-                        {{ getItemTitle(props.option) }}
+                        {{ props.option.name }}
                    </span>
                 </div>
             </template>
