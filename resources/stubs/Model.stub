@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class {{modelName}} extends Model
 {
-    use Crudable, HasFactory;
+    use Crudable;
+    use HasFactory;
 
    /**
      * Columns available for sorting
