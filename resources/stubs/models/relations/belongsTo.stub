@@ -4,5 +4,5 @@
     */
     public function {{nameOfRelation}}(): BelongsTo
     {
-        return $this->belongsTo('App\Models\{{modelNameOfRelation}}');
+        return $this->belongsTo({{modelNameOfRelation}}::class);
     }

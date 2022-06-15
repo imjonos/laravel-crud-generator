@@ -1,12 +1,13 @@
 <?php
 /**
- * Eugeny Nosenko 2021
+ * Eugeny Nosenko 2022
  * https://toprogram.ru
  * info@toprogram.ru
  */
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Nos\CRUD\Traits\Crudable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

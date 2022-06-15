@@ -3,5 +3,5 @@
  */
  public function {{nameOfRelation}}(): BelongsToMany
  {
-     return $this->belongsToMany('App\Models\{{modelNameOfRelation}}');
+     return $this->belongsToMany({{modelNameOfRelation}}::class);
  }

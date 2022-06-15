@@ -3,5 +3,5 @@
  */
  public function {{nameOfRelation}}(): HasMany
  {
-     return $this->hasMany('App\Models\{{modelNameOfRelation}}');
+     return $this->hasMany({{modelNameOfRelation}}::class);
  }
