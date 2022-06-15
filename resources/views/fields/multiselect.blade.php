@@ -9,10 +9,19 @@
         v-model="{{ $vModel }}"
         name="{{ $name }}"
         @if(isset($options))
-        :options="{{ $options }}"
+            :options="{{ $options }}"
+        @endif
+        @if(isset($ref))
+            ref="{{ $ref }}"
+        @endif
+        @if(isset($labelAttribute))
+            label-attribute="{{ $labelAttribute }}"
         @endif
         @if(isset($resourceUrl))
-        :resource-url="{{ $resourceUrl }}"
+            :resource-url="{{ $resourceUrl }}"
+        @endif
+        @if(isset($useQuery))
+            :use-query="{{ $useQuery }}"
         @endif
         :multiple="{{ (isset($multiple))?$multiple:'true' }}"
         :allow-empty="{{ ($required)?'false':'true' }}"
