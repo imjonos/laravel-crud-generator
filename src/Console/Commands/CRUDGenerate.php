@@ -945,7 +945,7 @@ class CRUDGenerate extends Command
                                 $slotName = $column['belongsTo']['name'] . ".name";
                                 $slots .= "@slot('$columnName')
         @{{ item.$slotName }}
-    @endslot";
+    @endslot" . PHP_EOL;
                             }
 
                             $columnsArray .= "      ['name' => '$columnName', 'order' => true]," . PHP_EOL;
