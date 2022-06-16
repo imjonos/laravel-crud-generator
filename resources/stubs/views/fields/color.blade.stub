@@ -1,16 +1,8 @@
 @component('nos.crud::fields.color', [
-	'required' => {{Required}}
+	'required' => {{Required}},
+    'label' => trans('crud.{{SingularName}}.columns.{{ColumnName}}'),
+    'vModel' => 'form.{{ColumnName}}',
+    'name' => '{{ColumnName}}',
+    'placeholder' => trans('crud.{{SingularName}}.columns.{{ColumnName}}')
 ])
-    @slot('label')
-        @lang('crud.{{SingularName}}.columns.{{ColumnName}}')
-    @endslot
-    @slot('vModel')
-        form.{{ColumnName}}
-    @endslot
-    @slot('name')
-        {{ColumnName}}
-    @endslot
-    @slot('placeholder')
-     	@lang('crud.{{SingularName}}.columns.{{ColumnName}}')
-    @endslot
 @endcomponent

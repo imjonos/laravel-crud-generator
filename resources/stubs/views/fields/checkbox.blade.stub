@@ -1,13 +1,7 @@
 @component('nos.crud::fields.checkbox', [
-	'required' => {{Required}}
+	'required' => {{Required}},
+	'label' => trans('crud.{{SingularName}}.columns.{{ColumnName}}'),
+	'vModel' => 'form.{{ColumnName}}',
+	'name' => '{{ColumnName}}'
 ])
-    @slot('label')
-        @lang('crud.{{SingularName}}.columns.{{ColumnName}}')
-    @endslot
-    @slot('vModel')
-        form.{{ColumnName}}
-    @endslot
-    @slot('name')
-        {{ColumnName}}
-    @endslot
 @endcomponent
