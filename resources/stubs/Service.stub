@@ -7,6 +7,8 @@ use Nos\CRUD\Services\BaseService;
 
 /**
  * @method {{modelName}}Repository getRepository()
+ * @method {{modelName}} create(array $data)
+ * @method {{modelName}} find(int $modelId)
  */
 final class {{modelName}}Service extends BaseService
 {
