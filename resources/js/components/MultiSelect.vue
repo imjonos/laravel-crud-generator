@@ -2,6 +2,7 @@
     <div>
         <vue-multiselect v-model="selected"
                          :allowEmpty="allowEmpty"
+                         :label="labelAttribute"
                          :multiple="multiple"
                          :name="name"
                          :options="data"
@@ -11,7 +12,6 @@
                          :show-labels="false"
                          :taggable="multiple"
                          deselectLabel="x"
-                         label="name"
                          open-direction="bottom"
                          selectLabel=""
                          selectedLabel=""
@@ -19,11 +19,11 @@
                          track-by="id"
                          @search-change="getData">
             <template slot="singleLabel" slot-scope="props">
-                {{ props.option.name }}
+                {{ getItemTitle(props.option) }}
             </template>
             <template slot="tag" slot-scope="props">
                 <span class="multiselect__tag">
-                    <span> {{ props.option.name }} </span>
+                    <span> {{ getItemTitle(props.option) }} </span>
                     <i aria-hidden="true" class="multiselect__tag-icon" tabindex="1"
                        @click="removeTag(props.option.id)"></i>
                 </span>
@@ -31,7 +31,7 @@
             <template slot="option" slot-scope="props">
                 <div class="option__desc">
                    <span class="option__title">
-                        {{ props.option.name }}
+                        {{ getItemTitle(props.option) }}
                    </span>
                 </div>
             </template>
@@ -63,7 +63,7 @@ export default {
         },
         searchBy: {
             type: String,
-            default: "name"
+            default: 'name'
         },
         multiple: {
             type: Boolean,
@@ -85,11 +85,11 @@ export default {
         },
         labelAttribute: {
             type: String,
-            default: "asciiname"
+            default: 'name'
         },
         resourceUrl: {
             type: String,
-            default: ""
+            default: ''
         },
         useQuery: {
             type: Boolean,
@@ -102,20 +102,14 @@ export default {
             if (!this.multiple) {
                 this.getItem(this.value);
             } else {
-                this.selected = _.map(this.value, item => {
-                    let el = JSON.parse(JSON.stringify(item));
-                    return {
-                        id: el.id,
-                        name: this.getItemTitle(el)
-                    }
-                });
+                this.selected = JSON.parse(JSON.stringify(this.value));
             }
         }
     },
     methods: {
         removeTag(id) {
             let tags = JSON.parse(JSON.stringify(this.selected));
-            _.remove(tags, el => Number(el.id) === Number(id));
+            _.remove(tags, el => String(el.id) === String(id));
             this.selected = tags;
         },
         getItem(id = null) {
@@ -125,10 +119,7 @@ export default {
                 axios.get(url + '/' + id).then(response => {
                     let item = response.data.data;
                     if (item.hasOwnProperty('id')) {
-                        this.selected = {
-                            id: item.id,
-                            name: this.getTitle(item)
-                        }
+                        this.selected = this.getOption(item);
                     }
                 }).catch(error => {
                     console.log(error);
@@ -141,6 +132,14 @@ export default {
         getTitle(option) {
             //For example
             return option.attributes[this.labelAttribute];
+        },
+        getOption(option) {
+            let result = {
+                id: option.id
+            };
+            result[this.labelAttribute] = this.getTitle(option);
+
+            return result;
         },
         getData(searchQuery = '') {
             if (this.resourceUrl) {
@@ -162,19 +161,17 @@ export default {
                         });
 
                         if (!isFind) {
-                            options.push({
+                            let itemData = {
                                 id: '0',
-                                name: searchQuery
-                            });
+                            };
+                            itemData[this.labelAttribute] = searchQuery;
+                            options.push(itemData);
                         }
                     }
 
                     _.forEach(response.data.data, item => {
                         if (!_.isEmpty(item)) {
-                            options.push({
-                                id: item.id,
-                                name: this.getTitle(item)
-                            });
+                            options.push(this.getOption(item));
                         }
                     });
 
