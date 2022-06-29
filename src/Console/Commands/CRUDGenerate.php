@@ -655,6 +655,7 @@ class CRUDGenerate extends Command
         $scopesTemplate = "";
         $sortable = '[' . PHP_EOL;
         $fillable = '[' . PHP_EOL;
+        $comments = '/**' . PHP_EOL;
         $hidden = '[' . PHP_EOL;
         $eq = config('crud.filters.eq');
         $date = config('crud.filters.date');
@@ -690,6 +691,7 @@ class CRUDGenerate extends Command
             }
             if (!in_array($column['name'], $this->systemColumns)) {
                 $fillable .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
+                $comments .= '* @param ' . $column['type'] . ' $' . $column['name'] . PHP_EOL;
             }
             if (in_array($column['name'], $hiddenFields)) {
                 $hidden .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
@@ -698,14 +700,23 @@ class CRUDGenerate extends Command
         $sortable .= '                            ]';
         $fillable .= '                            ]';
         $hidden .= '                            ]';
+        $comments .= '*/';
         if ($name != 'User') {
             $stub = 'Model';
         } else {
             $stub = 'UserModel';
         }
         $modelTemplate = $this->makeTemplate(
-            ['{{modelName}}', '{{Relations}}', '{{fillable}}', '{{sortable}}', '{{hidden}}', '{{Scopes}}'],
-            [$name, $relationsTemplate, $fillable, $sortable, $hidden, $scopesTemplate],
+            [
+                '{{modelName}}',
+                '{{Relations}}',
+                '{{fillable}}',
+                '{{sortable}}',
+                '{{hidden}}',
+                '{{Scopes}}',
+                '{{Comments}}'
+            ],
+            [$name, $relationsTemplate, $fillable, $sortable, $hidden, $scopesTemplate, $comments],
             $stub
         );
         $this->writeToFile(app_path("/Models/{$name}.php"), $modelTemplate);

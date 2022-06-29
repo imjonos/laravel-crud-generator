@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\{{modelName}}Repository;
 use Nos\CRUD\Services\BaseService;
+use App\Models\{{modelName}};
 
 /**
  * @method {{modelName}}Repository getRepository()
