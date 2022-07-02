@@ -691,7 +691,7 @@ class CRUDGenerate extends Command
             }
             if (!in_array($column['name'], $this->systemColumns)) {
                 $fillable .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
-                $comments .= '* @param ' . $column['type'] . ' $' . $column['name'] . PHP_EOL;
+                $comments .= '* @property ' . $column['type'] . ' $' . $column['name'] . PHP_EOL;
             }
             if (in_array($column['name'], $hiddenFields)) {
                 $hidden .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
