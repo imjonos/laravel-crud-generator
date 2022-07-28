@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Nos\CRUD\Console\Commands\CRUDDepInstall;
 use Nos\CRUD\Console\Commands\CRUDGenerate;
 
-class CRUDServiceProvider extends ServiceProvider
+final class CRUDServiceProvider extends ServiceProvider
 {
 
     protected $commands = [
@@ -19,7 +19,7 @@ class CRUDServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $mainPath = database_path('migrations');
         $directories = glob($mainPath . '/*', GLOB_ONLYDIR);
