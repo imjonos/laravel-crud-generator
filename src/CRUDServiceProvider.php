@@ -1,9 +1,4 @@
 <?php
-/**
- * nos 2019
- * https://toprogram.ru
- * info@toprogram.ru
- */
 
 namespace Nos\CRUD;
 

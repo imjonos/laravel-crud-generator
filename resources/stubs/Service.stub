@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Repositories\{{modelName}}Repository;
 use Nos\CRUD\Services\BaseService;
 use App\Models\{{modelName}};
+use App\Interfaces\Repositories\{{modelName}}RepositoryInterface;
 
 /**
- * @method {{modelName}}Repository getRepository()
+ * @method {{modelName}}RepositoryInterface getRepository()
  * @method {{modelName}} create(array $data)
  * @method {{modelName}} find(int $modelId)
  */
 final class {{modelName}}Service extends BaseService
 {
-    protected string $repositoryClass = {{modelName}}Repository::class;
+    protected string $repositoryClass = {{modelName}}RepositoryInterface::class;
 }

@@ -1,7 +1,9 @@
 <?php
 namespace App\Interfaces\Repositories;
 
-interface {{modelName}}RepositoryInterface
+use Nos\BaseRepository\Interfaces\EloquentRepositoryInterface;
+
+interface {{modelName}}RepositoryInterface extends EloquentRepositoryInterface
 {
 
 }
