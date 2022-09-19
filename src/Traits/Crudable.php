@@ -8,6 +8,7 @@
 namespace Nos\CRUD\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 /**
@@ -18,12 +19,12 @@ trait Crudable
 {
     /**
      * Search by scopes (new version)
-     * @param $query
+     * @param Builder $query
      * @param array $fields fields for selection
      * @param array $requestData
      * @return Builder
      */
-    public function scopeOfSearch($query, array $fields = ['*'], array $requestData = []): Builder
+    public function scopeOfSearch(Builder $query, array $fields = ['*'], array $requestData = []): Builder
     {
         $excludedScopeKeys = ['order_column'];
         $query->select($fields);
@@ -46,14 +47,20 @@ trait Crudable
 
     /**
      * Scope for ordering results
-     * @param $query
+     * @param Builder $query
      * @param string $column
      * @param string $direction
-     * @return mixed
+     * @return Builder
      */
-    public function scopeOfOrderColumn($query, string $column, string $direction = 'ASC')
+    public function scopeOfOrderColumn(Builder $query, string $column, string $direction = 'ASC'): Builder
     {
-        return $query->orderBy($column, $direction);
+        $tableName = $query->getModel()->getTable();
+
+        if (Schema::hasColumn($tableName, $column)) {
+            $query = $query->orderBy($column, $direction);
+        }
+
+        return $query;
     }
 
     /**
