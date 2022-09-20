@@ -1,6 +1,7 @@
 <template>
     <div>
-        <vue-multiselect v-model="selected"
+        <vue-multiselect :ref="name"
+                         v-model="selected"
                          :allowEmpty="allowEmpty"
                          :label="labelAttribute"
                          :multiple="multiple"
@@ -9,13 +10,13 @@
                          :placeholder="placeholder"
                          :preselect-first="false"
                          :preserve-search="true"
+                         :selectLabel="selectLabel"
                          :show-labels="false"
+                         :tagPlaceholder="placeholder"
                          :taggable="multiple"
                          deselectLabel="x"
                          open-direction="bottom"
-                         selectLabel=""
                          selectedLabel=""
-                         tagPlaceholder=""
                          track-by="id"
                          @search-change="getData">
             <template slot="singleLabel" slot-scope="props">
@@ -49,7 +50,8 @@ export default {
     data() {
         return {
             selected: this.value,
-            data: this.options
+            data: this.options,
+            url: this.resourceUrl
         }
     },
     props: {
@@ -91,6 +93,10 @@ export default {
             type: String,
             default: ''
         },
+        selectLabel: {
+            type: String,
+            default: 'Select'
+        },
         useQuery: {
             type: Boolean,
             default: false
@@ -107,15 +113,21 @@ export default {
         }
     },
     methods: {
+        setResourceUrl(url) {
+            this.url = url;
+        },
+        setSearch(search) {
+            this.$refs[this.name].search = search;
+        },
         removeTag(id) {
             let tags = JSON.parse(JSON.stringify(this.selected));
             _.remove(tags, el => String(el.id) === String(id));
             this.selected = tags;
         },
         getItem(id = null) {
-            if (this.resourceUrl && id) {
-                let index = this.resourceUrl.indexOf('?');
-                let url = (index > 0) ? this.resourceUrl.slice(0, index) : this.resourceUrl;
+            if (this.url && id) {
+                let index = this.url.indexOf('?');
+                let url = (index > 0) ? this.url.slice(0, index) : this.url;
                 axios.get(url + '/' + id).then(response => {
                     let item = response.data.data;
                     if (item.hasOwnProperty('id')) {
@@ -127,7 +139,7 @@ export default {
             }
         },
         getItemTitle(item) {
-            return item[this.labelAttribute];
+            return item[this.labelAttribute] ?? this.placeholder;
         },
         getTitle(option) {
             //For example
@@ -141,16 +153,22 @@ export default {
 
             return result;
         },
+        getDataSource(response) {
+            return response.data.data;
+        },
+        getSearchParam(searchQuery) {
+            return 'filter[' + this.searchBy + ']=' + searchQuery;
+        },
         getData(searchQuery = '') {
-            if (this.resourceUrl) {
+            if (this.url) {
                 let searchParams = '';
                 if (_.size(searchQuery) > 1) {
                     searchParams = '?';
-                    if (this.resourceUrl.indexOf('?') > 0) searchParams = '&';
-                    searchParams += 'filter[' + this.searchBy + ']=' + searchQuery;
+                    if (this.url.indexOf('?') > 0) searchParams = '&';
+                    searchParams += this.getSearchParam(searchQuery);
                 }
 
-                axios.get(this.resourceUrl + searchParams).then(response => {
+                axios.get(this.url + searchParams).then(response => {
                     let options = [];
                     if (searchQuery && this.useQuery) {
                         let isFind = false;
@@ -169,9 +187,10 @@ export default {
                         }
                     }
 
-                    _.forEach(response.data.data, item => {
+                    _.forEach(this.getDataSource(response), item => {
                         if (!_.isEmpty(item)) {
-                            options.push(this.getOption(item));
+                            let option = this.getOption(item);
+                            options.push(option);
                         }
                     });
 
@@ -182,7 +201,6 @@ export default {
                 });
             }
         }
-
     },
     watch: {
         selected(val) { //Для v-model в родитель
@@ -193,12 +211,13 @@ export default {
                 } else
                     result = val.id;
             }
-
             this.$emit('input', result);
         },
-        value(val) {
-            if (_.isEmpty(val)) {
-                this.selected = val;
+        value(newVal, oldVal) {
+            if (!_.isEmpty(newVal) && oldVal !== newVal) {
+                this.getItem(newVal);
+            } else if (newVal === 0) {
+                this.selected = null;
             }
         }
     }
