@@ -214,7 +214,8 @@ export default {
             this.$emit('input', result);
         },
         value(newVal, oldVal) {
-            if (!_.isEmpty(newVal) && oldVal !== newVal) {
+            if ((!_.isEmpty(newVal) || newVal !== 0) && oldVal !== newVal) {
+                console.log(oldVal, newVal);
                 this.getItem(newVal);
             } else if (newVal === 0) {
                 this.selected = null;

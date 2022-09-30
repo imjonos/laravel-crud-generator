@@ -91,7 +91,7 @@ class CRUDGenerate extends Command
     /**
      * @var array
      */
-    protected $filedTypes = [
+    protected array $filedTypes = [
         "checkbox" => ["tinyint", "boolean", "bool"],
         "date" => ["date", "datetime", "timestamp"],
         "number" => ["smallint", "mediumint", "int", "bigint", "float", "double"],
@@ -696,7 +696,7 @@ class CRUDGenerate extends Command
                 $hidden .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
             }
 
-            $comments .= '* @property ' . $column['type'] . ' $' . $column['name'] . PHP_EOL;
+            $comments .= '* @property ' . $this->getPropertyType($column) . ' $' . $column['name'] . PHP_EOL;
         }
         $sortable .= '                            ]';
         $fillable .= '                            ]';
@@ -721,6 +721,28 @@ class CRUDGenerate extends Command
             $stub
         );
         $this->writeToFile(app_path("/Models/{$name}.php"), $modelTemplate);
+    }
+
+    private function getPropertyType(array $column = []): string
+    {
+        $result = '';
+
+        $types = [
+            'bool' => ['checkbox'],
+            'int' => ['number'],
+            'string' => ['date', 'text', 'textarea']
+        ];
+
+        $inputType = $this->getFieldInputType($column);
+
+        foreach ($types as $key => $type) {
+            if (in_array($inputType, $type)) {
+                $result = $key;
+                break;
+            }
+        }
+
+        return $result;
     }
 
     /**
