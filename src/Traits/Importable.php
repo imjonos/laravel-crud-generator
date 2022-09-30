@@ -8,6 +8,7 @@
 namespace Nos\CRUD\Traits;
 
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Nos\CRUD\Http\Requests\ImportRequest;
 
@@ -20,12 +21,22 @@ trait Importable
 
     /**
      * @param ImportRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function import(ImportRequest $request)
+    public function import(ImportRequest $request): JsonResponse
     {
         $file = $request->import_file->store("", "local");
-        $this->getImportObject()->import($file, 'local', \Maatwebsite\Excel\Excel::XLSX);
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+
+        $readerType = '';
+
+        if ($ext === 'csv') {
+            $readerType = \Maatwebsite\Excel\Excel::CSV;
+        } elseif ($ext === 'xls') {
+            $readerType = \Maatwebsite\Excel\Excel::XLSX;
+        }
+
+        $this->getImportObject()->import($file, 'local', $readerType);
         Storage::delete($file);
 
         return response()->json([], 204);
@@ -35,5 +46,5 @@ trait Importable
      * Set the Import class
      * @return mixed
      */
-    abstract public function getImportObject();
+    abstract public function getImportObject(): mixed;
 }

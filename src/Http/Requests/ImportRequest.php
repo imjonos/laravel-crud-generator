@@ -29,7 +29,7 @@ class ImportRequest extends FormRequest
     public function rules()
     {
         return [
-            'import_file' => 'required|max:50000|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'import_file' => 'required|max:50000|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,text/plain',
         ];
     }
 }
