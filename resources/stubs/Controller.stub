@@ -33,7 +33,7 @@ use Illuminate\View\View;
  * Class CRUDController
  * @package Nos\CRUD\Http\Controllers
  */
-class {{modelName}}Controller extends Controller
+final class {{modelName}}Controller extends Controller
 {
     protected {{modelName}}Service ${{modelNameSingularLowerCase}}Service;
 
@@ -46,6 +46,7 @@ class {{modelName}}Controller extends Controller
      * List of records
      * @param IndexRequest $request
      * @return JsonResponse|View
+     * @throws BindingResolutionException
      */
     public function index(IndexRequest $request): JsonResponse|View
     {
