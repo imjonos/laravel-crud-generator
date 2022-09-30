@@ -7,30 +7,30 @@ import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
-import { VueEditor } from "vue2-editor/dist/vue2-editor.common";
+import {VueEditor} from "vue2-editor/dist/vue2-editor.common";
 import store from "./store/index";
+import MixinsTrans from './mixins/trans'
 
-Object.defineProperty(Vue.prototype, '_', { value: lodash });
+Object.defineProperty(Vue.prototype, '_', {value: lodash});
 Vue.component('file-upload', require('./components/FileUpload.vue').default);
 Vue.component('import', require('./components/Import.vue').default);
 Vue.component('multi-select', require('./components/MultiSelect.vue').default);
 Vue.component('vue-dropzone', vue2Dropzone);
-Object.defineProperty(Vue.prototype, '_', { value: lodash });
 require('./index');
 Vue.use(Notifications);
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 Vue.use(flatPickr);
 VueEditor.methods.emitImageInfo = function emitImageInfo($event) {
-    var resetUploader = function resetUploader() {
-        var uploader = document.getElementById("file-upload");
+    let resetUploader = function resetUploader() {
+        let uploader = document.getElementById("file-upload");
         uploader.value = "";
     };
 
-    var file = $event.target.files[0];
-    var Editor = this.quill;
-    var range = Editor.getSelection();
-    var cursorLocation = range.index;
+    let file = $event.target.files[0];
+    let Editor = this.quill;
+    let range = Editor.getSelection();
+    let cursorLocation = range.index;
     this.$emit("imageadded", file, Editor, cursorLocation, resetUploader);
 }
 Vue.component('vue-editor', VueEditor);
@@ -38,10 +38,6 @@ Vue.component('vue-editor', VueEditor);
 const mixin = {
     store,
     methods: {
-        trans: function (key) {
-            key = key.replace(/::/, '.');
-            return _.get(window.trans, key, key);
-        },
         systemMessage(type = 'success', options = {}) {
             options = Object.assign(
                 {
@@ -56,4 +52,5 @@ const mixin = {
         }
     },
 };
+Vue.mixin(MixinsTrans);
 Vue.mixin(mixin);
