@@ -978,7 +978,7 @@ class CRUDGenerate extends Command
                             if (isset($column['belongsTo']['name'])) {
                                 $slotName = $column['belongsTo']['name'] . ".name";
                                 $slots .= "@slot('$columnName')
-        @{{ item.$slotName }}
+       <template v-if=\"item.$slotName\"> @{{ item.$slotName }} </template>
     @endslot" . PHP_EOL;
                             }
 
