@@ -9,6 +9,7 @@ use App\Interfaces\Repositories\{{modelName}}RepositoryInterface;
 /**
  * @method {{modelName}}RepositoryInterface getRepository()
  * @method {{modelName}} create(array $data)
+ * @method {{modelName}} updateOrCreate(array $attributes, array $data)
  * @method {{modelName}} find(int $modelId)
  */
 final class {{modelName}}Service extends BaseService
