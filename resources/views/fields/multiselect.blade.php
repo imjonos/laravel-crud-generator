@@ -23,8 +23,8 @@
         @if(isset($useQuery))
             :use-query="{{ $useQuery }}"
         @endif
-        :multiple="{{ (!isset($multiple) || (bool) $multiple === 1)? 'true' : 'false' }}"
-        :allow-empty="{{ (!isset($required) || (bool) $required === 0)? 'true' : 'false' }}"
+        :multiple=" {{ (!isset($multiple) || filter_var($multiple, FILTER_VALIDATE_BOOLEAN) === true)? 'true' : 'false' }}"
+        :allow-empty=" {{ (!isset($required) || filter_var($required, FILTER_VALIDATE_BOOLEAN) === true)? 'true' : 'false' }}"
         placeholder="{{ $placeholder }}">
     </multi-select>
     <div class="text-danger" v-if="errors.has('{{ $name }}')" v-html="errors.first('{{ $name }}')"></div>
