@@ -8,6 +8,7 @@
 namespace App\Http\Controllers{{namespacePath}};
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use App\Http\Requests{{namespacePath}}\{{modelName}}\{
     IndexRequest,
     CreateRequest,
