@@ -24,7 +24,7 @@ class CRUDGenerate extends Command
      *
      * @var string
      */
-    protected $signature = 'crud:generate  {table : Table name from DB} {--route=admin} {--force=0} {--import=0} {--export=0} {--alternative=0}';
+    protected $signature = 'crud:generate  {table : Table name from DB} {--route=admin} {--force=0} {--import=0} {--export=0} {--alternative=0} {--with-controller=1}';
 
     /**
      * The console command description.
@@ -152,6 +152,8 @@ class CRUDGenerate extends Command
      */
     protected $alternative;
 
+    private int $withController;
+
     /**
      * Create a new command instance.
      *
@@ -175,6 +177,7 @@ class CRUDGenerate extends Command
         $this->import = $this->option('import');
         $this->export = $this->option('export');
         $this->alternative = $this->option('alternative');
+        $this->withController = (int) $this->option('with-controller');
 
         if (!Schema::hasTable($this->tableName)) {
             $this->info("Wrong table name! Aborting!");
@@ -184,28 +187,31 @@ class CRUDGenerate extends Command
         $this->columns = $this->getColumns();
         $name = ucfirst(Str::camel($this->tableName));
         $this->info("CRUD generate start");
-        $this->controller($name);
-        $this->info("Controller done!");
-        $this->test($name);
-        $this->info("Test done!");
+        if ($this->withController) {
+            $this->controller($name);
+            $this->info("Controller done!");
+            $this->test($name);
+            $this->info("Test done!");
+            $this->request($name);
+            $this->info("Request done!");
+            $this->views($name);
+            $this->info("Views done!");
+            $this->languages($name);
+            $this->info("Languages done!");
+            $this->components($name);
+            $this->info("VueJS done!");
+            $this->routes($name);
+            $this->info("Route done!");
+            $this->menu($name);
+            $this->info("Menu done!");
+        }
+
         $this->model($name);
         $this->info("Model done!");
         $this->repository($name);
         $this->info("Repository done!");
         $this->service($name);
         $this->info("Service done!");
-        $this->request($name);
-        $this->info("Request done!");
-        $this->views($name);
-        $this->info("Views done!");
-        $this->languages($name);
-        $this->info("Languages done!");
-        $this->components($name);
-        $this->info("VueJS done!");
-        $this->routes($name);
-        $this->info("Route done!");
-        $this->menu($name);
-        $this->info("Menu done!");
         $this->factory($name);
         $this->info("Factory done!");
         $this->seed($name);
@@ -641,182 +647,6 @@ class CRUDGenerate extends Command
         );
 
         $this->writeToFile(base_path("/tests/Feature/Admin/{$singularName}ControllerTest.php"), $testTemplate);
-    }
-
-    /**
-     * Create the model
-     * @param string $name
-     */
-    protected function model(string $name): void
-    {
-        $hiddenFields = ['password', 'remember_token'];
-        $name = Str::singular($name);
-        $relationsTemplate = "";
-        $scopesTemplate = "";
-        $sortable = '[' . PHP_EOL;
-        $fillable = '[' . PHP_EOL;
-        $comments = '/**' . PHP_EOL;
-        $hidden = '[' . PHP_EOL;
-        $eq = config('crud.filters.eq');
-        $date = config('crud.filters.date');
-        foreach ($this->columns as $column) {
-            if ($column['input'] == "select") {
-                $relationsTemplate .= $this->makeTemplate(
-                    ['{{nameOfRelation}}', '{{modelNameOfRelation}}', '{{name}}'],
-                    [$column['belongsTo']['name'], $column['belongsTo']['model'], $name],
-                    'models/relations/belongsTo'
-                );
-            }
-            if ($column['name'] == 'id' || !in_array(
-                    $column['name'],
-                    $this->systemColumns
-                ) && $column['name'] != 'password') {
-                if (in_array($column['type'], $eq)) {
-                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
-                        [$column['name'], ucfirst(Str::camel($column['name']))],
-                        'models/scopes/equals');
-                } elseif (in_array($column['type'], $date)) {
-                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
-                        [$column['name'], ucfirst(Str::camel($column['name']))],
-                        'models/scopes/from');
-                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
-                        [$column['name'], ucfirst(Str::camel($column['name']))],
-                        'models/scopes/to');
-                } else {
-                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
-                        [$column['name'], ucfirst(Str::camel($column['name']))],
-                        'models/scopes/like');
-                }
-                $sortable .= '                            \'' . $column['name'] . '\'' . ',' . PHP_EOL;
-            }
-            if (!in_array($column['name'], $this->systemColumns)) {
-                $fillable .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
-            }
-            if (in_array($column['name'], $hiddenFields)) {
-                $hidden .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
-            }
-
-            $comments .= '* @property ' . $this->getPropertyType($column) . ' $' . $column['name'] . PHP_EOL;
-        }
-        $sortable .= '                            ]';
-        $fillable .= '                            ]';
-        $hidden .= '                            ]';
-        $comments .= '*/';
-        if ($name != 'User') {
-            $stub = 'Model';
-        } else {
-            $stub = 'UserModel';
-        }
-        $modelTemplate = $this->makeTemplate(
-            [
-                '{{modelName}}',
-                '{{Relations}}',
-                '{{fillable}}',
-                '{{sortable}}',
-                '{{hidden}}',
-                '{{Scopes}}',
-                '{{Comments}}'
-            ],
-            [$name, $relationsTemplate, $fillable, $sortable, $hidden, $scopesTemplate, $comments],
-            $stub
-        );
-        $this->writeToFile(app_path("/Models/{$name}.php"), $modelTemplate);
-    }
-
-    private function getPropertyType(array $column = []): string
-    {
-        $result = '';
-
-        $types = [
-            'bool' => ['checkbox'],
-            'int' => ['number'],
-            'string' => ['date', 'text', 'textarea']
-        ];
-
-        $inputType = $this->getFieldInputType($column);
-
-        foreach ($types as $key => $type) {
-            if (in_array($inputType, $type)) {
-                $result = $key;
-                break;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Create the repository
-     * @param string $name
-     */
-    protected function repository(string $name): void
-    {
-        $name = Str::singular($name);
-        if (!file_exists($path = app_path('/Interfaces'))) {
-            mkdir($path, 0755, true);
-        }
-
-        if (!file_exists($path = app_path('/Interfaces/Repositories'))) {
-            mkdir($path, 0755, true);
-        }
-
-        if (!file_exists($path = app_path('/Repositories'))) {
-            mkdir($path, 0755, true);
-        }
-
-        $template = $this->makeTemplate(
-            [
-                '{{modelName}}',
-            ],
-            [
-                $name,
-            ],
-            'RepositoryInterface'
-        );
-        $this->writeToFile(
-            app_path("Interfaces/Repositories/{$name}RepositoryInterface.php"),
-            $template
-        );
-
-        $template = $this->makeTemplate(
-            [
-                '{{modelName}}',
-            ],
-            [
-                $name,
-            ],
-            'Repository'
-        );
-        $this->writeToFile(
-            app_path("Repositories/{$name}Repository.php"),
-            $template
-        );
-    }
-
-    /**
-     * Create the service
-     * @param string $name
-     */
-    protected function service(string $name): void
-    {
-        $name = Str::singular($name);
-        if (!file_exists($path = app_path('/Services'))) {
-            mkdir($path, 0755, true);
-        }
-
-        $template = $this->makeTemplate(
-            [
-                '{{modelName}}',
-            ],
-            [
-                $name,
-            ],
-            'Service'
-        );
-        $this->writeToFile(
-            app_path("Services/{$name}Service.php"),
-            $template
-        );
     }
 
     /**
@@ -1305,6 +1135,182 @@ class CRUDGenerate extends Command
 
             File::append($menuBladeFilePath, $menuTemplate);
         }
+    }
+
+    /**
+     * Create the model
+     * @param string $name
+     */
+    protected function model(string $name): void
+    {
+        $hiddenFields = ['password', 'remember_token'];
+        $name = Str::singular($name);
+        $relationsTemplate = "";
+        $scopesTemplate = "";
+        $sortable = '[' . PHP_EOL;
+        $fillable = '[' . PHP_EOL;
+        $comments = '/**' . PHP_EOL;
+        $hidden = '[' . PHP_EOL;
+        $eq = config('crud.filters.eq');
+        $date = config('crud.filters.date');
+        foreach ($this->columns as $column) {
+            if ($column['input'] == "select") {
+                $relationsTemplate .= $this->makeTemplate(
+                    ['{{nameOfRelation}}', '{{modelNameOfRelation}}', '{{name}}'],
+                    [$column['belongsTo']['name'], $column['belongsTo']['model'], $name],
+                    'models/relations/belongsTo'
+                );
+            }
+            if ($column['name'] == 'id' || !in_array(
+                    $column['name'],
+                    $this->systemColumns
+                ) && $column['name'] != 'password') {
+                if (in_array($column['type'], $eq)) {
+                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
+                        [$column['name'], ucfirst(Str::camel($column['name']))],
+                        'models/scopes/equals');
+                } elseif (in_array($column['type'], $date)) {
+                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
+                        [$column['name'], ucfirst(Str::camel($column['name']))],
+                        'models/scopes/from');
+                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
+                        [$column['name'], ucfirst(Str::camel($column['name']))],
+                        'models/scopes/to');
+                } else {
+                    $scopesTemplate .= $this->makeTemplate(['{{name}}', '{{camelName}}'],
+                        [$column['name'], ucfirst(Str::camel($column['name']))],
+                        'models/scopes/like');
+                }
+                $sortable .= '                            \'' . $column['name'] . '\'' . ',' . PHP_EOL;
+            }
+            if (!in_array($column['name'], $this->systemColumns)) {
+                $fillable .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
+            }
+            if (in_array($column['name'], $hiddenFields)) {
+                $hidden .= '                            \'' . $column['name'] . '\',' . PHP_EOL;
+            }
+
+            $comments .= '* @property ' . $this->getPropertyType($column) . ' $' . $column['name'] . PHP_EOL;
+        }
+        $sortable .= '                            ]';
+        $fillable .= '                            ]';
+        $hidden .= '                            ]';
+        $comments .= '*/';
+        if ($name != 'User') {
+            $stub = 'Model';
+        } else {
+            $stub = 'UserModel';
+        }
+        $modelTemplate = $this->makeTemplate(
+            [
+                '{{modelName}}',
+                '{{Relations}}',
+                '{{fillable}}',
+                '{{sortable}}',
+                '{{hidden}}',
+                '{{Scopes}}',
+                '{{Comments}}'
+            ],
+            [$name, $relationsTemplate, $fillable, $sortable, $hidden, $scopesTemplate, $comments],
+            $stub
+        );
+        $this->writeToFile(app_path("/Models/{$name}.php"), $modelTemplate);
+    }
+
+    private function getPropertyType(array $column = []): string
+    {
+        $result = '';
+
+        $types = [
+            'bool' => ['checkbox'],
+            'int' => ['number'],
+            'string' => ['date', 'text', 'textarea']
+        ];
+
+        $inputType = $this->getFieldInputType($column);
+
+        foreach ($types as $key => $type) {
+            if (in_array($inputType, $type)) {
+                $result = $key;
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Create the repository
+     * @param string $name
+     */
+    protected function repository(string $name): void
+    {
+        $name = Str::singular($name);
+        if (!file_exists($path = app_path('/Interfaces'))) {
+            mkdir($path, 0755, true);
+        }
+
+        if (!file_exists($path = app_path('/Interfaces/Repositories'))) {
+            mkdir($path, 0755, true);
+        }
+
+        if (!file_exists($path = app_path('/Repositories'))) {
+            mkdir($path, 0755, true);
+        }
+
+        $template = $this->makeTemplate(
+            [
+                '{{modelName}}',
+            ],
+            [
+                $name,
+            ],
+            'RepositoryInterface'
+        );
+        $this->writeToFile(
+            app_path("Interfaces/Repositories/{$name}RepositoryInterface.php"),
+            $template
+        );
+
+        $template = $this->makeTemplate(
+            [
+                '{{modelName}}',
+            ],
+            [
+                $name,
+            ],
+            'Repository'
+        );
+        $this->writeToFile(
+            app_path("Repositories/{$name}Repository.php"),
+            $template
+        );
+    }
+
+    /**
+     * Create the service
+     * @param string $name
+     */
+    protected function service(string $name): void
+    {
+        $name = Str::singular($name);
+        if (!file_exists($path = app_path('/Services'))) {
+            mkdir($path, 0755, true);
+        }
+
+        $template = $this->makeTemplate(
+            [
+                '{{modelName}}',
+            ],
+            [
+                $name,
+            ],
+            'Service'
+        );
+        $this->writeToFile(
+            app_path("Services/{$name}Service.php"),
+            $template
+        );
     }
 
     /**
