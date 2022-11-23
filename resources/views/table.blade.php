@@ -5,12 +5,14 @@
             @foreach($columns as $column)
                 @component('nos.crud::th', [
                     'order' => $column['order'],
-                    'title' => trans('crud.'.$componentName.'.columns.'.$column['name']),
+                    'title' => trans('crud.'.Str::replace('-', '_', $componentName).'.columns.'.$column['name']),
                     'columnName' => $column['name']
                 ])
                 @endcomponent
             @endforeach
-            <th>{{trans('admin.actions')}}</th>
+            @if(!isset($showActions) || $showActions)
+                <th>{{ trans('admin.actions') }}</th>
+            @endif
         </tr>
         </thead>
         <tbody>
@@ -25,9 +27,11 @@
                     </td>
                 @endif
             @endforeach
-            <td class="nowrap">
-                @include('vuexy.partials.edit-buttons')
-            </td>
+            @if(!isset($showActions) || $showActions)
+                <td class="nowrap">
+                    @include('nos.crud::edit-buttons')
+                </td>
+            @endif
         </tr>
         </tbody>
     </table>
