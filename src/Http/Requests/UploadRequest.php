@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Auth;
  * Class UserRequest
  * @package Nos\CRUD
  */
-class UploadRequest extends FormRequest
+final class UploadRequest extends FormRequest
 {
     /**
      * authorize
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::check();
     }

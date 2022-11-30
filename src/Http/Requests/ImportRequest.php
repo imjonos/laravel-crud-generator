@@ -13,12 +13,12 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class ImportRequest
  * @package Nos\CRUD
  */
-class ImportRequest extends FormRequest
+final class ImportRequest extends FormRequest
 {
     /**
      * authorize
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -26,7 +26,7 @@ class ImportRequest extends FormRequest
     /**
      * rules
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'import_file' => 'required|max:50000|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,text/plain',

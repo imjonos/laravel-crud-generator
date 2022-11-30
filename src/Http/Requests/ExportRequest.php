@@ -13,12 +13,12 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class ExportRequest
  * @package Nos\CRUD
  */
-class ExportRequest extends FormRequest
+final class ExportRequest extends FormRequest
 {
     /**
      * authorize
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -26,7 +26,7 @@ class ExportRequest extends FormRequest
     /**
      * rules
      */
-    public function rules()
+    public function rules(): array
     {
         return [
         ];
