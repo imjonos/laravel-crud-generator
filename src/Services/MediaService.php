@@ -47,9 +47,9 @@ final class MediaService
         if (request()->exists($collectionName)) {
             $rules = [];
             $rules[$collectionName] = ['nullable', 'array'];
-            $rules[$collectionName . '.files'] = ['required', 'array'];
+            $rules[$collectionName . '.files'] = ['array'];
             $rules[$collectionName . '.removedFiles'] = ['nullable', 'array'];
-            $rules[$collectionName . '.removedFiles.*'] = ['required', 'array'];
+            $rules[$collectionName . '.removedFiles.*'] = ['array'];
             $rules[$collectionName . '.removedFiles.*.id'] = ['required', 'integer'];
 
             foreach ($fileValidationRules as $key => $validationRule) {
