@@ -27,7 +27,7 @@ final class UploadRequest extends FormRequest
     /**
      * rules
      */
-    public function rules()
+    public function rules(): array
     {
         return config('crud.upload_rules');
     }

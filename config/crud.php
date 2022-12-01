@@ -36,7 +36,5 @@ return [
     ],
     'upload_rules' => [
         'file' => 'required|file'
-    ],
-    'upload_extensions' => [
     ]
 ];

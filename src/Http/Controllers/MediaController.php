@@ -13,19 +13,14 @@
 
 namespace Nos\CRUD\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Nos\CRUD\Http\Requests\UploadRequest;
 
-class MediaController extends Controller
+final class MediaController extends Controller
 {
-    public function upload(UploadRequest $request)
+    public function upload(UploadRequest $request): Response
     {
-        if (!empty(config('crud.upload_extensions'))) {
-            $ext = $request->file('file')->getClientOriginalExtension();
-            if (!in_array($ext, config('crud.upload_extensions'))) {
-                abort(422, 'Unsopported file format');
-            }
-        }
         $path = $request->file('file')->store('files');
 
         return response([
