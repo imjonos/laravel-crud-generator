@@ -32,14 +32,15 @@ trait Crudable
             if (!in_array($key, $excludedScopeKeys) && method_exists($this, 'scopeOf' . Str::camel($key))) {
                 $query->{'of' . ucfirst(Str::camel($key))}($value);
             }
-            if (!empty($requestData['order_column'])) {
-                $query->ofOrderColumn(
-                    $requestData['order_column'],
-                    (!empty($requestData['order_direction']) ? $requestData['order_direction'] : 'ASC')
-                );
-            } else {
-                $query->orderBy('id', 'desc');
-            }
+        }
+        
+        if (!empty($requestData['order_column'])) {
+            $query->ofOrderColumn(
+                $requestData['order_column'],
+                (!empty($requestData['order_direction']) ? $requestData['order_direction'] : 'ASC')
+            );
+        } else {
+            $query->orderBy('id', 'desc');
         }
 
         return $query;
