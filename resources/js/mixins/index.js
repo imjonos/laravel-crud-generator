@@ -9,7 +9,7 @@ export default {
             },
             form: {},
             orderColumn: 'id',
-            orderDirection: 'asc',
+            orderDirection: 'desc',
             loading: false,
             selectedCheckboxes: [],
             allSelected: false,
